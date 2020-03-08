@@ -7,9 +7,12 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController {
-
+    
+    var photos: [Photo] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
