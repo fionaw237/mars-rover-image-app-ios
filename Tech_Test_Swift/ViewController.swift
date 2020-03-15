@@ -9,15 +9,33 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var photos: [Photo] = []
+    @IBOutlet weak var tableView: UITableView!
+    
+    var photos: [PhotoDto] = [
+        PhotoDto(camera: "Curiosity" , image: "https://i.picsum.photos/id/301/200/300.jpg", rover: "rover 1", status: "active"),
+        PhotoDto(camera: "Curiosity" , image: "https://i.picsum.photos/id/301/200/300.jpg", rover: "rover 2", status: "active"),
+        PhotoDto(camera: "Curiosity" , image: "https://i.picsum.photos/id/301/200/300.jpg", rover: "rover 3", status: "inactive"),
+        PhotoDto(camera: "Curiosity" , image: "https://i.picsum.photos/id/301/200/300.jpg", rover: "rover 4", status: "active"),
+        PhotoDto(camera: "Curiosity" , image: "https://i.picsum.photos/id/301/200/300.jpg", rover: "rover 5", status: "active")
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-
-
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return photos.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let photo = photos[indexPath.row]
+        
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: "PhotoTableViewCell", for: indexPath) as! PhotoTableViewCell
+        cell.setPhotoProperties(photo)
+        return cell
+    }
 }
 
