@@ -9,12 +9,29 @@
 import Foundation
 
 protocol NetworkRequest {
-    func fetchData(sol: Int) -> [PhotoDto]
+     func fetchData(sol: Int, completion: @escaping (_ data: [PhotoDto]) -> Void)
 }
 
 
 class APIRequest: NetworkRequest {
-    func fetchData(sol: Int) -> [PhotoDto] {
-        return [PhotoDto(camera: Camera(name: "Camera Name") , img_src: "https://i.picsum.photos/id/301/200/300.jpg", rover: Rover(name: "Eva", status: "Sleepy"))]
+    func fetchData(sol: Int, completion: @escaping ([PhotoDto]) -> Void) {
+        
+        let key = "SosAw8PH06hY4UgdReSvYk0F0GfqFHPv0V9GWFK8"
+        
+        guard let url = URL(string: "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=\(sol)&api_key=\(key)") else {
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            if error == nil {
+                guard let data = data else {return}
+                do {
+                    let array = try JSONDecoder().decode(PhotosResponse.self, from: data)
+                    completion(array.photos)
+                } catch let jsonError {
+                    print("Error Parsing json:", jsonError)
+                }
+            }
+        }.resume()
     }
 }

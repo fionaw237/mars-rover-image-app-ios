@@ -18,23 +18,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.photos = APIRequest().fetchData(sol: 1)
-        
-//        guard let url = URL(string: "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1&api_key=SosAw8PH06hY4UgdReSvYk0F0GfqFHPv0V9GWFK8") else {return}
-//
-//        URLSession.shared.dataTask(with: url) { (data, response, error) in
-//            if error == nil {
-//                guard let data = data else {return}
-//                do {
-//                    self.photos = try JSONDecoder().decode(PhotosResponse.self, from: data)
-//                } catch let jsonError {
-//                    print("Error Parsing json:", jsonError)
-//                }
-//                DispatchQueue.main.async {
-//                    self.tableView.reloadData()
-//                }
-//            }
-//        }.resume()
+        APIRequest().fetchData(sol: 1, completion: { (photos) in
+            self.photos = photos
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        })
         
     }
     
