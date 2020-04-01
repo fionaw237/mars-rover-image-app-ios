@@ -9,12 +9,12 @@
 import Foundation
 
 protocol NetworkRequest {
-     func fetchData(sol: Int, completion: @escaping (_ data: [PhotoDto]) -> Void)
+     func fetchData(sol: Int, completion: @escaping (Result<[PhotoDto], Error>) -> Void)
 }
 
 
 class APIRequest: NetworkRequest {
-    func fetchData(sol: Int, completion: @escaping ([PhotoDto]) -> Void) {
+    func fetchData(sol: Int, completion: @escaping (Result<[PhotoDto], Error>) -> Void) {
         
         let key = "SosAw8PH06hY4UgdReSvYk0F0GfqFHPv0V9GWFK8"
         
@@ -28,11 +28,13 @@ class APIRequest: NetworkRequest {
                 do {
                     let photosResponse = try JSONDecoder().decode(PhotosResponse.self, from: data)
                     DispatchQueue.main.async {
-                        completion(photosResponse.photos)
+                        completion(.success(photosResponse.photos))
                     }
                 } catch let jsonError {
-                    print("Error Parsing json:", jsonError)
+                    completion(.failure(jsonError))
                 }
+            } else {
+                completion(.failure(error!))
             }
         }.resume()
     }

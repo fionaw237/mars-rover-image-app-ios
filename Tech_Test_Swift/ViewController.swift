@@ -19,11 +19,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        APIRequest().fetchData(sol: defaultSol) { (photos) in
-            self.photos = photos
-            self.tableView.reloadData()
+        APIRequest().fetchData(sol: defaultSol) { (result) in
+            switch result {
+            case .success(let photos):
+                self.photos = photos
+                self.tableView.reloadData()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            
         }
-        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
