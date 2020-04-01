@@ -26,8 +26,10 @@ class APIRequest: NetworkRequest {
             if error == nil {
                 guard let data = data else {return}
                 do {
-                    let array = try JSONDecoder().decode(PhotosResponse.self, from: data)
-                    completion(array.photos)
+                    let photosResponse = try JSONDecoder().decode(PhotosResponse.self, from: data)
+                    DispatchQueue.main.async {
+                        completion(photosResponse.photos)
+                    }
                 } catch let jsonError {
                     print("Error Parsing json:", jsonError)
                 }

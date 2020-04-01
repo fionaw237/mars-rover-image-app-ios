@@ -14,16 +14,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var tableView: UITableView!
     
     var photos: [PhotoDto] = []
+    let defaultSol = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        APIRequest().fetchData(sol: 1, completion: { (photos) in
+        APIRequest().fetchData(sol: defaultSol) { (photos) in
             self.photos = photos
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        })
+            self.tableView.reloadData()
+        }
         
     }
     
