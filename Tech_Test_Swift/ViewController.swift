@@ -13,17 +13,29 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet weak var tableView: UITableView!
     
-    var photos: [PhotoDto] = [
-        PhotoDto(camera: "Curiosity" , image: "https://i.picsum.photos/id/301/200/300.jpg", rover: "rover 1", status: "active"),
-        PhotoDto(camera: "Curiosity" , image: "https://i.picsum.photos/id/301/200/300.jpg", rover: "rover 2", status: "active"),
-        PhotoDto(camera: "Curiosity" , image: "https://i.picsum.photos/id/301/200/300.jpg", rover: "rover 3", status: "inactive"),
-        PhotoDto(camera: "Curiosity" , image: "https://i.picsum.photos/id/301/200/300.jpg", rover: "rover 4", status: "active"),
-        PhotoDto(camera: "Curiosity" , image: "https://i.picsum.photos/id/301/200/300.jpg", rover: "rover 5", status: "active")
-    ]
+    var photos: [PhotoDto] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        self.photos = APIRequest().fetchData(sol: 1)
+        
+//        guard let url = URL(string: "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1&api_key=SosAw8PH06hY4UgdReSvYk0F0GfqFHPv0V9GWFK8") else {return}
+//
+//        URLSession.shared.dataTask(with: url) { (data, response, error) in
+//            if error == nil {
+//                guard let data = data else {return}
+//                do {
+//                    self.photos = try JSONDecoder().decode(PhotosResponse.self, from: data)
+//                } catch let jsonError {
+//                    print("Error Parsing json:", jsonError)
+//                }
+//                DispatchQueue.main.async {
+//                    self.tableView.reloadData()
+//                }
+//            }
+//        }.resume()
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -16,10 +16,10 @@ class PhotoTableViewCell: UITableViewCell {
     @IBOutlet weak var roverStatus: UILabel!
     
     func setPhotoProperties(_ photo: PhotoDto) {
-        cameraName.text = photo.camera
-        roverName.text = photo.rover
-        roverStatus.text = photo.status
-        if let url = URL(string: photo.image) {
+        cameraName.text = photo.camera.name
+        roverName.text = photo.rover.name
+        roverStatus.text = photo.rover.status
+        if let url = URL(string: photo.img_src!) {
             photoImage.load(url: url)
         }
     }
