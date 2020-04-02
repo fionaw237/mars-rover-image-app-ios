@@ -12,19 +12,43 @@ import CoreData
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var earthDateLabel: UILabel!
     
-    var photos: [PhotoDto] = [
-        PhotoDto(camera: "Curiosity" , image: "https://i.picsum.photos/id/301/200/300.jpg", rover: "rover 1", status: "active"),
-        PhotoDto(camera: "Curiosity" , image: "https://i.picsum.photos/id/301/200/300.jpg", rover: "rover 2", status: "active"),
-        PhotoDto(camera: "Curiosity" , image: "https://i.picsum.photos/id/301/200/300.jpg", rover: "rover 3", status: "inactive"),
-        PhotoDto(camera: "Curiosity" , image: "https://i.picsum.photos/id/301/200/300.jpg", rover: "rover 4", status: "active"),
-        PhotoDto(camera: "Curiosity" , image: "https://i.picsum.photos/id/301/200/300.jpg", rover: "rover 5", status: "active")
-    ]
+    
+    var photos: [PhotoDto] = []
+    let defaultSol = 1
+    let chosenRover = "Curiosity"
+    let apiRequest = APIRequest()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        fetchData(sol: defaultSol, rover: chosenRover)
     }
+    
+    //MARK: Methods handling fetching of data
+    
+    fileprivate func fetchData(sol: Int, rover: String) {
+        apiRequest.fetchData(sol: defaultSol, rover: chosenRover) { (result) in
+            self.handleDataFetched(result: result)
+        }
+    }
+    
+    fileprivate func handleDataFetched(result: Result<[PhotoDto], Error>) {
+        switch result {
+        case .success(let photos):
+            self.handleDataFetchSuccess(photos)
+        case .failure(let error):
+            print(error.localizedDescription)
+        }
+    }
+    
+    fileprivate func handleDataFetchSuccess(_ photos: [PhotoDto]) {
+        self.photos = photos
+        self.earthDateLabel.text = self.photos.count > 0 ? self.photos[0].earthDate : ""
+        self.tableView.reloadData()
+    }
+    
+    //MARK: TableView delegate methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return photos.count
