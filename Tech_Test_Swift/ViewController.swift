@@ -17,7 +17,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var numberOfPhotosLabel: UILabel!
     @IBOutlet weak var cameraPicker: UIPickerView!
     
-    var photos: [PhotoDto] = []
+    var allPhotos: [PhotoDto] = []
+    var displayedPhotos: [PhotoDto] = []
     var cameraNames: [String] = []
     let defaultSol = 1
     var currentSol = 1
@@ -31,9 +32,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         fetchData(sol: defaultSol, rover: chosenRover)
     }
     
-    private func configureLabels() {
-        self.numberOfPhotosLabel.text = "\(photos.count) photo(s) found."
-        self.earthDateLabel.text = photos.count > 0 ? photos[0].earthDate : ""
+    private func configureNumberOfPhotosLabel() {
+        numberOfPhotosLabel.text = "\(displayedPhotos.count) photo(s) found."
+    }
+    
+    private func configureEarthDateLabel() {
+        earthDateLabel.text = allPhotos.count > 0 ? allPhotos[0].earthDate : ""
     }
     
     // MARK: Methods for sol text field
@@ -53,7 +57,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // MARK: Picker view methods
     
     private func setUpCameraPicker() {
-        self.cameraNames = Array(Set(photos.map {$0.camera.name}))
+        self.cameraNames = Array(Set(allPhotos.map {$0.camera.name}))
         self.cameraNames.insert("All", at: 0)
         self.cameraPicker.reloadAllComponents()
     }
@@ -71,7 +75,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
+        let selectedCamera = cameraNames[row]
+        switch selectedCamera {
+        case "All":
+            displayedPhotos = allPhotos
+        default:
+            displayedPhotos = allPhotos.filter { $0.camera.name == selectedCamera }
+        }
+        tableView.reloadData()
+        configureNumberOfPhotosLabel()
     }
     
     // MARK: Methods for handling tap gesture
@@ -103,9 +115,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     private func handleDataFetchSuccess(_ photos: [PhotoDto]) {
-        self.photos = photos
+        allPhotos = photos
+        displayedPhotos = allPhotos
         setUpCameraPicker()
-        configureLabels()
+        configureNumberOfPhotosLabel()
+        configureEarthDateLabel()
         tableView.reloadData()
     }
     
@@ -116,12 +130,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //MARK: TableView delegate methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return photos.count
+        return displayedPhotos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "PhotoTableViewCell", for: indexPath) as! PhotoTableViewCell
-        cell.setPhotoProperties(photos[indexPath.row])
+        cell.setPhotoProperties(displayedPhotos[indexPath.row])
         return cell
     }
 
