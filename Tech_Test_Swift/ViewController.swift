@@ -14,6 +14,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var earthDateLabel: UILabel!
     @IBOutlet weak var solTextField: UITextField!
+    @IBOutlet weak var numberOfPhotosLabel: UILabel!
     
     var photos: [PhotoDto] = []
     let defaultSol = 1
@@ -35,7 +36,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        fetchData(sol: 5, rover: chosenRover)
+        guard let newSol = solTextField.text, let newSolInt = Int(newSol) else {return}
+        fetchData(sol: newSolInt, rover: chosenRover)
     }
     
     // MARK: Methods for handling tap gesture
@@ -52,7 +54,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //MARK: Methods handling fetching of data
     
     fileprivate func fetchData(sol: Int, rover: String) {
-        apiRequest.fetchData(sol: defaultSol, rover: chosenRover) { (result) in
+        apiRequest.fetchData(sol: sol, rover: chosenRover) { (result) in
             self.handleDataFetched(result: result)
         }
     }
@@ -68,6 +70,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     fileprivate func handleDataFetchSuccess(_ photos: [PhotoDto]) {
         self.photos = photos
+        self.numberOfPhotosLabel.text = "\(photos.count) photo(s) found."
         self.earthDateLabel.text = self.photos.count > 0 ? self.photos[0].earthDate : ""
         self.tableView.reloadData()
     }

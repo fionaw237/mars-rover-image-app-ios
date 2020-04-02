@@ -69,7 +69,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="120" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qnm-Gz-rXv">
-                                <rect key="frame" x="0.0" y="309" width="414" height="587"/>
+                                <rect key="frame" x="0.0" y="314" width="414" height="582"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PhotoTableViewCell" rowHeight="146" id="k1E-vi-FPx" customClass="PhotoTableViewCell" customModule="Tech_Test_Swift" customModuleProvider="target">
@@ -171,22 +171,30 @@
                                     <constraint firstAttribute="height" constant="120" id="BRy-9p-pSF"/>
                                 </constraints>
                             </pickerView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mrx-Ho-9JP" userLabel="Number Of Photos Label">
+                                <rect key="frame" x="207" y="304" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="0pK-mF-XPj" secondAttribute="trailing" id="EmC-ki-lZR"/>
                             <constraint firstItem="TNa-u0-LJI" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="centerX" constant="-10" id="Oiu-Ed-T9V"/>
+                            <constraint firstItem="mrx-Ho-9JP" firstAttribute="top" secondItem="QPC-G6-CZh" secondAttribute="bottom" id="PBP-D8-ZmW"/>
                             <constraint firstItem="TNa-u0-LJI" firstAttribute="top" secondItem="0pK-mF-XPj" secondAttribute="bottom" constant="40" id="Rfx-jN-uRb"/>
                             <constraint firstAttribute="bottom" secondItem="qnm-Gz-rXv" secondAttribute="bottom" id="SUB-c2-5hx"/>
                             <constraint firstItem="0pK-mF-XPj" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.2" id="Tfx-Uy-hFx"/>
                             <constraint firstItem="QPC-G6-CZh" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-10" id="Trv-Ld-gTE"/>
                             <constraint firstItem="QPC-G6-CZh" firstAttribute="leading" secondItem="TNa-u0-LJI" secondAttribute="trailing" constant="10" id="V42-AC-tux"/>
                             <constraint firstItem="qnm-Gz-rXv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Yh8-Dp-Eng"/>
-                            <constraint firstItem="qnm-Gz-rXv" firstAttribute="top" secondItem="QPC-G6-CZh" secondAttribute="bottom" constant="5" id="ZeK-fG-rBb"/>
+                            <constraint firstItem="qnm-Gz-rXv" firstAttribute="top" secondItem="mrx-Ho-9JP" secondAttribute="bottom" constant="10" id="ZeK-fG-rBb"/>
                             <constraint firstItem="TNa-u0-LJI" firstAttribute="centerY" secondItem="QPC-G6-CZh" secondAttribute="centerY" id="eM5-d6-iPA"/>
                             <constraint firstItem="QPC-G6-CZh" firstAttribute="top" secondItem="0pK-mF-XPj" secondAttribute="bottom" constant="5" id="ewN-g3-ff8"/>
                             <constraint firstItem="0pK-mF-XPj" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="gyw-PR-9Mr"/>
                             <constraint firstItem="TNa-u0-LJI" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="lSs-0i-eCq"/>
+                            <constraint firstItem="mrx-Ho-9JP" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="o5b-rX-2Eb"/>
                             <constraint firstItem="0pK-mF-XPj" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="rEI-cS-fFz"/>
                             <constraint firstItem="qnm-Gz-rXv" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="sKu-Oc-7lu"/>
                         </constraints>
@@ -194,6 +202,7 @@
                     </view>
                     <connections>
                         <outlet property="earthDateLabel" destination="FvZ-DX-aDj" id="GNm-Kb-yIR"/>
+                        <outlet property="numberOfPhotosLabel" destination="mrx-Ho-9JP" id="eaB-Vk-E3G"/>
                         <outlet property="solTextField" destination="1wp-e7-iqZ" id="oLb-U6-SJz"/>
                         <outlet property="tableView" destination="qnm-Gz-rXv" id="PN8-vO-2eW"/>
                     </connections>
