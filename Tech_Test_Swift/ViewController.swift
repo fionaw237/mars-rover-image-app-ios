@@ -32,26 +32,46 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         fetchData(sol: defaultSol, rover: chosenRover)
     }
     
-    private func configureNumberOfPhotosLabel() {
-        numberOfPhotosLabel.text = "\(displayedPhotos.count) photo(s) found."
-    }
+    //MARK: Methods handling fetching of data
     
-    private func configureEarthDateLabel() {
-        earthDateLabel.text = allPhotos.count > 0 ? allPhotos[0].earthDate : ""
-    }
-    
-    // MARK: Methods for sol text field
-    
-    private func configureSolTextField() {
-        solTextField.text = "\(defaultSol)"
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let newSol = solTextField.text, let newSolInt = Int(newSol) else {return}
-        if newSolInt != currentSol {
-            currentSol = newSolInt
-            fetchData(sol: newSolInt, rover: chosenRover)
+    private func fetchData(sol: Int, rover: String) {
+        apiRequest.fetchData(sol: sol, rover: chosenRover) { (result) in
+            self.handleDataFetched(result: result)
         }
+    }
+    
+    private func handleDataFetched(result: Result<[PhotoDto], Error>) {
+        switch result {
+        case .success(let photos):
+            handleDataFetchSuccess(photos)
+        case .failure(let error):
+            handleDataFetchFailure(error)
+        }
+    }
+    
+    private func handleDataFetchSuccess(_ photos: [PhotoDto]) {
+        allPhotos = photos
+        displayedPhotos = allPhotos
+        setUpCameraPicker()
+        configureNumberOfPhotosLabel()
+        configureEarthDateLabel()
+        tableView.reloadData()
+    }
+    
+    private func handleDataFetchFailure(_ error: Error) {
+        numberOfPhotosLabel.text = error.localizedDescription
+    }
+    
+    //MARK: TableView delegate methods
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return displayedPhotos.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: "PhotoTableViewCell", for: indexPath) as! PhotoTableViewCell
+        cell.setPhotoProperties(displayedPhotos[indexPath.row])
+        return cell
     }
     
     // MARK: Picker view methods
@@ -97,47 +117,28 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         view.endEditing(true)
     }
     
-    //MARK: Methods handling fetching of data
+    // MARK: Methods for configuring sol and earth date labels
     
-    private func fetchData(sol: Int, rover: String) {
-        apiRequest.fetchData(sol: sol, rover: chosenRover) { (result) in
-            self.handleDataFetched(result: result)
+    private func configureNumberOfPhotosLabel() {
+        numberOfPhotosLabel.text = "\(displayedPhotos.count) photo(s) found."
+    }
+    
+    private func configureEarthDateLabel() {
+        earthDateLabel.text = allPhotos.count > 0 ? allPhotos[0].earthDate : ""
+    }
+    
+    // MARK: Methods for sol text field
+    
+    private func configureSolTextField() {
+        solTextField.text = "\(defaultSol)"
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let newSol = solTextField.text, let newSolInt = Int(newSol) else {return}
+        if newSolInt != currentSol {
+            currentSol = newSolInt
+            fetchData(sol: newSolInt, rover: chosenRover)
         }
     }
-    
-    private func handleDataFetched(result: Result<[PhotoDto], Error>) {
-        switch result {
-        case .success(let photos):
-            handleDataFetchSuccess(photos)
-        case .failure(let error):
-            handleDataFetchFailure(error)
-        }
-    }
-    
-    private func handleDataFetchSuccess(_ photos: [PhotoDto]) {
-        allPhotos = photos
-        displayedPhotos = allPhotos
-        setUpCameraPicker()
-        configureNumberOfPhotosLabel()
-        configureEarthDateLabel()
-        tableView.reloadData()
-    }
-    
-    private func handleDataFetchFailure(_ error: Error) {
-        numberOfPhotosLabel.text = error.localizedDescription
-    }
-    
-    //MARK: TableView delegate methods
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return displayedPhotos.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: "PhotoTableViewCell", for: indexPath) as! PhotoTableViewCell
-        cell.setPhotoProperties(displayedPhotos[indexPath.row])
-        return cell
-    }
-
 }
 
