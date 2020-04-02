@@ -18,6 +18,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var photos: [PhotoDto] = []
     let defaultSol = 1
+    var currentSol = 1
     let chosenRover = "Curiosity"
     let apiRequest = APIRequest()
     
@@ -37,7 +38,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let newSol = solTextField.text, let newSolInt = Int(newSol) else {return}
-        fetchData(sol: newSolInt, rover: chosenRover)
+        if newSolInt != currentSol {
+            currentSol = newSolInt
+            fetchData(sol: newSolInt, rover: chosenRover)
+        }
     }
     
     // MARK: Methods for handling tap gesture
