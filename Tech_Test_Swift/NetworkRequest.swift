@@ -24,18 +24,18 @@ class APIRequest: NetworkRequest {
         }
         
         URLSession.shared.dataTask(with: url) { (data, response, error) in
-            if error == nil {
-                guard let data = data else {return}
-                do {
-                    let photosResponse = try JSONDecoder().decode(PhotosResponse.self, from: data)
-                    DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                if error == nil {
+                    guard let data = data else {return}
+                    do {
+                        let photosResponse = try JSONDecoder().decode(PhotosResponse.self, from: data)
                         completion(.success(photosResponse.photos))
+                    } catch let jsonError {
+                        completion(.failure(jsonError))
                     }
-                } catch let jsonError {
-                    completion(.failure(jsonError))
+                } else {
+                    completion(.failure(error!))
                 }
-            } else {
-                completion(.failure(error!))
             }
         }.resume()
     }

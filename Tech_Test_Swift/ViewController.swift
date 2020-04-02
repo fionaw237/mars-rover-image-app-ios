@@ -68,7 +68,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         case .success(let photos):
             self.handleDataFetchSuccess(photos)
         case .failure(let error):
-            print(error.localizedDescription)
+            handleDataFetchFailure(error)
         }
     }
     
@@ -77,6 +77,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.numberOfPhotosLabel.text = "\(photos.count) photo(s) found."
         self.earthDateLabel.text = self.photos.count > 0 ? self.photos[0].earthDate : ""
         self.tableView.reloadData()
+    }
+    
+    private func handleDataFetchFailure(_ error: Error) {
+        numberOfPhotosLabel.text = error.localizedDescription
     }
     
     //MARK: TableView delegate methods
