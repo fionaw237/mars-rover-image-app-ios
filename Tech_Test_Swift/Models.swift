@@ -14,8 +14,13 @@ struct PhotosResponse: Decodable {
 
 struct PhotoDto: Decodable {
     let camera: Camera
-    let img_src: String?
+    let image: String?
     let rover: Rover
+    let earthDate: String
+    
+    private enum CodingKeys: String, CodingKey {
+        case camera, rover, image = "img_src", earthDate = "earth_date"
+    }
 }
 
 struct Rover: Decodable {

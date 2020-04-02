@@ -9,16 +9,17 @@
 import Foundation
 
 protocol NetworkRequest {
-     func fetchData(sol: Int, completion: @escaping (Result<[PhotoDto], Error>) -> Void)
+    func fetchData(sol: Int, rover: String, completion: @escaping (Result<[PhotoDto], Error>) -> Void)
 }
 
 
 class APIRequest: NetworkRequest {
-    func fetchData(sol: Int, completion: @escaping (Result<[PhotoDto], Error>) -> Void) {
+    func fetchData(sol: Int, rover: String, completion: @escaping (Result<[PhotoDto], Error>) -> Void) {
         
+        let baseUrl = "https://api.nasa.gov/mars-photos/api/v1/rovers/"
         let key = "SosAw8PH06hY4UgdReSvYk0F0GfqFHPv0V9GWFK8"
         
-        guard let url = URL(string: "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=\(sol)&api_key=\(key)") else {
+        guard let url = URL(string: "\(baseUrl)\(rover)/photos?sol=\(sol)&api_key=\(key)") else {
             return
         }
         

@@ -12,24 +12,43 @@ import CoreData
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var earthDateLabel: UILabel!
+    
     
     var photos: [PhotoDto] = []
     let defaultSol = 1
+    let chosenRover = "Curiosity"
+    let apiRequest = APIRequest()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        APIRequest().fetchData(sol: defaultSol) { (result) in
-            switch result {
-            case .success(let photos):
-                self.photos = photos
-                self.tableView.reloadData()
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-            
+        fetchData(sol: defaultSol, rover: chosenRover)
+    }
+    
+    //MARK: Methods handling fetching of data
+    
+    fileprivate func fetchData(sol: Int, rover: String) {
+        apiRequest.fetchData(sol: defaultSol, rover: chosenRover) { (result) in
+            self.handleDataFetched(result: result)
         }
     }
+    
+    fileprivate func handleDataFetched(result: Result<[PhotoDto], Error>) {
+        switch result {
+        case .success(let photos):
+            self.handleDataFetchSuccess(photos)
+        case .failure(let error):
+            print(error.localizedDescription)
+        }
+    }
+    
+    fileprivate func handleDataFetchSuccess(_ photos: [PhotoDto]) {
+        self.photos = photos
+        self.earthDateLabel.text = self.photos.count > 0 ? self.photos[0].earthDate : ""
+        self.tableView.reloadData()
+    }
+    
+    //MARK: TableView delegate methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return photos.count

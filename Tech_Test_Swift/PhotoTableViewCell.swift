@@ -19,8 +19,8 @@ class PhotoTableViewCell: UITableViewCell {
         cameraName.text = photo.camera.name
         roverName.text = photo.rover.name
         roverStatus.text = photo.rover.status
-//        if let url = URL(string: photo.img_src!) {
-//            photoImage.load(url: url)
-//        }
+        if let url = URL(string: photo.image!) {
+            photoImage.load(url: url)
+        }
     }
 }
