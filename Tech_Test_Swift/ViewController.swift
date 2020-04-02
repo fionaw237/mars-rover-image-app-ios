@@ -31,6 +31,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         fetchData(sol: defaultSol, rover: chosenRover)
     }
     
+    private func configureLabels() {
+        self.numberOfPhotosLabel.text = "\(photos.count) photo(s) found."
+        self.earthDateLabel.text = photos.count > 0 ? photos[0].earthDate : ""
+    }
+    
     // MARK: Methods for sol text field
     
     private func configureSolTextField() {
@@ -45,7 +50,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    // MARK: Picker view delegate methods
+    // MARK: Picker view methods
+    
+    private func setUpCameraPicker() {
+        self.cameraNames = Array(Set(photos.map {$0.camera.name}))
+        self.cameraNames.insert("All", at: 0)
+        self.cameraPicker.reloadAllComponents()
+    }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -85,7 +96,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private func handleDataFetched(result: Result<[PhotoDto], Error>) {
         switch result {
         case .success(let photos):
-            self.handleDataFetchSuccess(photos)
+            handleDataFetchSuccess(photos)
         case .failure(let error):
             handleDataFetchFailure(error)
         }
@@ -93,11 +104,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     private func handleDataFetchSuccess(_ photos: [PhotoDto]) {
         self.photos = photos
-        self.cameraNames = Array(Set(photos.map {$0.camera.name}))
-        self.numberOfPhotosLabel.text = "\(photos.count) photo(s) found."
-        self.earthDateLabel.text = self.photos.count > 0 ? self.photos[0].earthDate : ""
-        self.tableView.reloadData()
-        self.cameraPicker.reloadAllComponents()
+        setUpCameraPicker()
+        configureLabels()
+        tableView.reloadData()
     }
     
     private func handleDataFetchFailure(_ error: Error) {
