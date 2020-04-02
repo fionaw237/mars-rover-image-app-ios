@@ -9,11 +9,11 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var earthDateLabel: UILabel!
-    
+    @IBOutlet weak var solTextField: UITextField!
     
     var photos: [PhotoDto] = []
     let defaultSol = 1
@@ -22,7 +22,31 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureSolTextField()
+        configureTapGesture()
         fetchData(sol: defaultSol, rover: chosenRover)
+    }
+    
+    // MARK: Methods for sol text field
+    
+    private func configureSolTextField() {
+        solTextField.delegate = self
+        solTextField.text = "\(defaultSol)"
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        fetchData(sol: 5, rover: chosenRover)
+    }
+    
+    // MARK: Methods for handling tap gesture
+    
+    private func configureTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewController.handleTap))
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func handleTap() {
+        view.endEditing(true)
     }
     
     //MARK: Methods handling fetching of data
@@ -55,11 +79,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let photo = photos[indexPath.row]
-        
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "PhotoTableViewCell", for: indexPath) as! PhotoTableViewCell
-        cell.setPhotoProperties(photo)
+        cell.setPhotoProperties(photos[indexPath.row])
         return cell
     }
+
 }
 
