@@ -28,6 +28,6 @@ struct Rover: Decodable {
     let status: String
 }
 
-struct Camera: Decodable {
+struct Camera: Decodable, Hashable {
     let name: String
 }

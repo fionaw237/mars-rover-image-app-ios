@@ -9,14 +9,16 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var earthDateLabel: UILabel!
     @IBOutlet weak var solTextField: UITextField!
     @IBOutlet weak var numberOfPhotosLabel: UILabel!
+    @IBOutlet weak var cameraPicker: UIPickerView!
     
     var photos: [PhotoDto] = []
+    var cameraNames: [String] = []
     let defaultSol = 1
     var currentSol = 1
     let chosenRover = "Curiosity"
@@ -32,7 +34,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // MARK: Methods for sol text field
     
     private func configureSolTextField() {
-        solTextField.delegate = self
         solTextField.text = "\(defaultSol)"
     }
     
@@ -42,6 +43,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             currentSol = newSolInt
             fetchData(sol: newSolInt, rover: chosenRover)
         }
+    }
+    
+    // MARK: Picker view delegate methods
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return cameraNames.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return cameraNames[row]
+    }
+
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
     }
     
     // MARK: Methods for handling tap gesture
@@ -57,13 +76,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //MARK: Methods handling fetching of data
     
-    fileprivate func fetchData(sol: Int, rover: String) {
+    private func fetchData(sol: Int, rover: String) {
         apiRequest.fetchData(sol: sol, rover: chosenRover) { (result) in
             self.handleDataFetched(result: result)
         }
     }
     
-    fileprivate func handleDataFetched(result: Result<[PhotoDto], Error>) {
+    private func handleDataFetched(result: Result<[PhotoDto], Error>) {
         switch result {
         case .success(let photos):
             self.handleDataFetchSuccess(photos)
@@ -72,11 +91,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    fileprivate func handleDataFetchSuccess(_ photos: [PhotoDto]) {
+    private func handleDataFetchSuccess(_ photos: [PhotoDto]) {
         self.photos = photos
+        self.cameraNames = Array(Set(photos.map {$0.camera.name}))
         self.numberOfPhotosLabel.text = "\(photos.count) photo(s) found."
         self.earthDateLabel.text = self.photos.count > 0 ? self.photos[0].earthDate : ""
         self.tableView.reloadData()
+        self.cameraPicker.reloadAllComponents()
     }
     
     private func handleDataFetchFailure(_ error: Error) {

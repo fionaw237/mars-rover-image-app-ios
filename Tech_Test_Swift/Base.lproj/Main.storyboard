@@ -48,6 +48,9 @@
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="BYZ-38-t0r" id="8ec-2H-i64"/>
+                                        </connections>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -170,6 +173,10 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="120" id="BRy-9p-pSF"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="h7G-uM-d4x"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="E4V-c4-h25"/>
+                                </connections>
                             </pickerView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mrx-Ho-9JP" userLabel="Number Of Photos Label">
                                 <rect key="frame" x="207" y="304" width="0.0" height="0.0"/>
@@ -201,6 +208,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="cameraPicker" destination="QPC-G6-CZh" id="7R1-HP-pmP"/>
                         <outlet property="earthDateLabel" destination="FvZ-DX-aDj" id="GNm-Kb-yIR"/>
                         <outlet property="numberOfPhotosLabel" destination="mrx-Ho-9JP" id="eaB-Vk-E3G"/>
                         <outlet property="solTextField" destination="1wp-e7-iqZ" id="oLb-U6-SJz"/>
