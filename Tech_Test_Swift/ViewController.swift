@@ -37,6 +37,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //MARK: Methods handling fetching of data
     
     private func fetchData(sol: Int, rover: String) {
+        numberOfPhotosLabel.text = "Fetching images for sol \(sol)..."
         apiRequest.fetchData(sol: sol, rover: chosenRover) { (result) in
             self.handleDataFetched(result: result)
         }
@@ -146,14 +147,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     private func handleValidSolInput(_ newSol: Int) {
         currentSol = newSol
+        clearDisplayedData()
         fetchData(sol: newSol, rover: chosenRover)
     }
     
     private func handleInvalidSolInput() {
         numberOfPhotosLabel.text = "Please enter a sol between \(minSol) and \(maxSol)"
+        clearDisplayedData()
+    }
+    
+    private func clearDisplayedData() {
         displayedPhotos = []
         allPhotos = []
         cameraNames = []
+        earthDateLabel.text = ""
         tableView.reloadData()
         cameraPicker.reloadAllComponents()
     }
