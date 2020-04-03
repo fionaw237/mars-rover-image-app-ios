@@ -22,6 +22,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var cameraNames: [String] = []
     let defaultSol = 1
     var currentSol = 1
+    let minSol = 1
+    let maxSol = 2500
     let chosenRover = "Curiosity"
     let apiRequest = APIRequest()
     
@@ -135,10 +137,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let newSol = solTextField.text, let newSolInt = Int(newSol) else {return}
-        if newSolInt != currentSol {
-            currentSol = newSolInt
-            fetchData(sol: newSolInt, rover: chosenRover)
+        if !(minSol...maxSol).contains(newSolInt) {
+            handleInvalidSolInput()
+        } else if newSolInt != currentSol {
+            handleValidSolInput(newSolInt)
         }
+    }
+    
+    private func handleValidSolInput(_ newSol: Int) {
+        currentSol = newSol
+        fetchData(sol: newSol, rover: chosenRover)
+    }
+    
+    private func handleInvalidSolInput() {
+        numberOfPhotosLabel.text = "Please enter a sol between \(minSol) and \(maxSol)"
+        displayedPhotos = []
+        allPhotos = []
+        cameraNames = []
+        tableView.reloadData()
+        cameraPicker.reloadAllComponents()
     }
 }
 
