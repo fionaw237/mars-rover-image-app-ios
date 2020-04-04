@@ -17,6 +17,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var numberOfPhotosLabel: UILabel!
     @IBOutlet weak var cameraPicker: UIPickerView!
     
+    var managedObjectContext: NSManagedObjectContext!
     var allPhotos: [PhotoDto] = []
     var displayedPhotos: [PhotoDto] = []
     var cameraNames: [String] = []
@@ -29,16 +30,49 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setManagedObjectContext()
         configureSolTextField()
         configureTapGesture()
         fetchData(sol: defaultSol, rover: chosenRover)
     }
     
+    private func setManagedObjectContext() {
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        managedObjectContext = appDelegate?.persistentContainer.viewContext
+    }
+    
     //MARK: Methods handling fetching of data
     
     private func fetchData(sol: Int, rover: String) {
+        let fetchedPhotos = getLocalData(sol, rover)
+        if fetchedPhotos.isEmpty {
+            fetchDataRemotely(sol, rover)
+        } else {
+            fetchedPhotos.forEach { photo in
+                allPhotos.append(PhotoDto(photo))
+            }
+            displayedPhotos = allPhotos
+            setUpCameraPicker()
+            configureNumberOfPhotosLabel()
+            configureEarthDateLabel()
+            tableView.reloadData()
+        }
+    }
+    
+    private func getLocalData(_ sol: Int, _ rover: String) -> [Photo] {
+        let request: NSFetchRequest<Photo> = Photo.fetchRequest()
+        request.predicate = NSPredicate(format: "sol == \(sol)")
+        do {
+            return try managedObjectContext.fetch(request)
+          } catch let error as NSError {
+            print("Error fetching local data \(error), \(error.userInfo)")
+            return []
+          }
+    }
+
+    private func fetchDataRemotely(_ sol: Int, _ rover: String) {
         numberOfPhotosLabel.text = "Fetching images for sol \(sol)..."
-        apiRequest.fetchData(sol: sol, rover: chosenRover) { (result) in
+        apiRequest.fetchData(sol: sol, rover: rover) { (result) in
             self.handleDataFetched(result: result)
         }
     }
@@ -53,12 +87,31 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     private func handleDataFetchSuccess(_ photos: [PhotoDto]) {
+        saveDataLocally(photos)
         allPhotos = photos
         displayedPhotos = allPhotos
         setUpCameraPicker()
         configureNumberOfPhotosLabel()
         configureEarthDateLabel()
         tableView.reloadData()
+    }
+    
+    private func saveDataLocally(_ photos: [PhotoDto]) {
+        photos.forEach { photoDto in
+            let entity = NSEntityDescription.entity(forEntityName: "Photo", in: managedObjectContext)
+            guard let newEntity = entity else {return}
+            let newPhoto = Photo(entity: newEntity, insertInto: managedObjectContext)
+            newPhoto.camera = photoDto.camera.name
+            newPhoto.rover = photoDto.rover.name
+            newPhoto.image = photoDto.image
+            newPhoto.status = photoDto.rover.status
+            newPhoto.sol = Int16(photoDto.sol)
+        }
+        do {
+            try managedObjectContext.save()
+        } catch {
+            print("Error saving to core data")
+        }
     }
     
     private func handleDataFetchFailure(_ error: Error) {

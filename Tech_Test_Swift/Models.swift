@@ -13,13 +13,25 @@ struct PhotosResponse: Decodable {
 }
 
 struct PhotoDto: Decodable {
+    let sol: Int
     let camera: Camera
     let image: String?
     let rover: Rover
     let earthDate: String
     
     private enum CodingKeys: String, CodingKey {
-        case camera, rover, image = "img_src", earthDate = "earth_date"
+        case sol, camera, rover, image = "img_src", earthDate = "earth_date"
+    }
+    
+    init(_ photo: Photo) {
+        let cameraName = photo.camera ?? ""
+        let roverName = photo.rover ?? ""
+        let status = photo.status ?? ""
+        sol = Int(photo.sol)
+        camera = Camera(name: cameraName)
+        image = photo.image
+        rover = Rover(name: roverName, status: status)
+        earthDate = ""
     }
 }
 
