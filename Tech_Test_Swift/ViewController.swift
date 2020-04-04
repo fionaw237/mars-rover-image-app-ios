@@ -48,7 +48,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if fetchedPhotos.isEmpty {
             fetchDataRemotely(sol, rover)
         } else {
-            // Display local data
+            fetchedPhotos.forEach { photo in
+                allPhotos.append(PhotoDto(photo))
+            }
+            displayedPhotos = allPhotos
+            setUpCameraPicker()
+            configureNumberOfPhotosLabel()
+            configureEarthDateLabel()
+            tableView.reloadData()
         }
     }
     
@@ -90,7 +97,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     private func saveDataLocally(_ photos: [PhotoDto]) {
-        
+        photos.forEach { photoDto in
+            let entity = NSEntityDescription.entity(forEntityName: "Photo", in: managedObjectContext)
+            guard let newEntity = entity else {return}
+            let newPhoto = Photo(entity: newEntity, insertInto: managedObjectContext)
+            newPhoto.camera = photoDto.camera.name
+            newPhoto.rover = photoDto.rover.name
+            newPhoto.image = photoDto.image
+            newPhoto.status = photoDto.rover.status
+            newPhoto.sol = Int16(photoDto.sol)
+        }
+        do {
+            try managedObjectContext.save()
+        } catch {
+            print("Error saving to core data")
+        }
     }
     
     private func handleDataFetchFailure(_ error: Error) {
