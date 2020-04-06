@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="18F132" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CameraDecodable" representedClassName="CameraDecodable" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="photo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PhotoDecodable" inverseName="camera" inverseEntity="PhotoDecodable"/>
+    </entity>
     <entity name="Photo" representedClassName="Photo" syncable="YES" codeGenerationType="class">
         <attribute name="camera" optional="YES" attributeType="String"/>
         <attribute name="image" optional="YES" attributeType="String"/>
@@ -7,7 +11,22 @@
         <attribute name="sol" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="status" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="PhotoDecodable" representedClassName="PhotoDecodable" syncable="YES">
+        <attribute name="earthDate" optional="YES" attributeType="String"/>
+        <attribute name="image" optional="YES" attributeType="String"/>
+        <attribute name="sol" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="camera" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CameraDecodable" inverseName="photo" inverseEntity="CameraDecodable"/>
+        <relationship name="rover" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RoverDecodable" inverseName="photo" inverseEntity="RoverDecodable"/>
+    </entity>
+    <entity name="RoverDecodable" representedClassName="RoverDecodable" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="status" optional="YES" attributeType="String"/>
+        <relationship name="photo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PhotoDecodable" inverseName="rover" inverseEntity="PhotoDecodable"/>
+    </entity>
     <elements>
-        <element name="Photo" positionX="-54" positionY="-9" width="128" height="118"/>
+        <element name="Photo" positionX="-78.04296875" positionY="-387.4765625" width="128" height="118"/>
+        <element name="PhotoDecodable" positionX="-255.875" positionY="-375.07421875" width="128" height="118"/>
+        <element name="CameraDecodable" positionX="-82.84765625" positionY="-112.94921875" width="128" height="73"/>
+        <element name="RoverDecodable" positionX="-473.1875" positionY="-223.04296875" width="128" height="88"/>
     </elements>
 </model>
