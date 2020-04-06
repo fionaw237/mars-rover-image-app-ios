@@ -18,8 +18,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var cameraPicker: UIPickerView!
     
     var managedObjectContext: NSManagedObjectContext!
-    var allPhotos: [PhotoDto] = []
-    var displayedPhotos: [PhotoDto] = []
+    var allPhotos: [Photo] = []
+    var displayedPhotos: [Photo] = []
     var cameraNames: [String] = []
     let defaultSol = 1
     var currentSol = 1
@@ -33,7 +33,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         setManagedObjectContext()
         configureSolTextField()
         configureTapGesture()
-        fetchData(sol: defaultSol, rover: chosenRover)
+        fetchData(sol: defaultSol, rover: chosenRover, context: managedObjectContext)
     }
     
     private func setManagedObjectContext() {
@@ -43,14 +43,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //MARK: Methods handling fetching of data
     
-    private func fetchData(sol: Int, rover: String) {
+    private func fetchData(sol: Int, rover: String, context: NSManagedObjectContext) {
         let fetchedPhotos = getLocalData(sol, rover)
         if fetchedPhotos.isEmpty {
-            fetchDataRemotely(sol, rover)
+            fetchDataRemotely(sol, rover, context)
         } else {
-            fetchedPhotos.forEach { photo in
-                allPhotos.append(PhotoDto(photo))
-            }
+            allPhotos = fetchedPhotos
             displayedPhotos = allPhotos
             setUpCameraPicker()
             configureNumberOfPhotosLabel()
@@ -70,14 +68,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
           }
     }
 
-    private func fetchDataRemotely(_ sol: Int, _ rover: String) {
+    private func fetchDataRemotely(_ sol: Int, _ rover: String, _ context: NSManagedObjectContext) {
         numberOfPhotosLabel.text = "Fetching images for sol \(sol)..."
-        apiRequest.fetchData(sol: sol, rover: rover) { (result) in
+        apiRequest.fetchData(sol: sol, rover: rover, context: context) { (result) in
             self.handleDataFetched(result: result)
         }
     }
     
-    private func handleDataFetched(result: Result<[PhotoDto], Error>) {
+    private func handleDataFetched(result: Result<[Photo], Error>) {
         switch result {
         case .success(let photos):
             handleDataFetchSuccess(photos)
@@ -86,32 +84,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    private func handleDataFetchSuccess(_ photos: [PhotoDto]) {
-        saveDataLocally(photos)
+    private func handleDataFetchSuccess(_ photos: [Photo]) {
         allPhotos = photos
         displayedPhotos = allPhotos
         setUpCameraPicker()
         configureNumberOfPhotosLabel()
         configureEarthDateLabel()
         tableView.reloadData()
-    }
-    
-    private func saveDataLocally(_ photos: [PhotoDto]) {
-        photos.forEach { photoDto in
-            let entity = NSEntityDescription.entity(forEntityName: "Photo", in: managedObjectContext)
-            guard let newEntity = entity else {return}
-            let newPhoto = Photo(entity: newEntity, insertInto: managedObjectContext)
-            newPhoto.camera = photoDto.camera.name
-            newPhoto.rover = photoDto.rover.name
-            newPhoto.image = photoDto.image
-            newPhoto.status = photoDto.rover.status
-            newPhoto.sol = Int16(photoDto.sol)
-        }
-        do {
-            try managedObjectContext.save()
-        } catch {
-            print("Error saving to core data")
-        }
     }
     
     private func handleDataFetchFailure(_ error: Error) {
@@ -133,7 +112,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // MARK: Picker view methods
     
     private func setUpCameraPicker() {
-        self.cameraNames = Array(Set(allPhotos.map {$0.camera.name}))
+        self.cameraNames = Array(Set(allPhotos.map {$0.camera?.name ?? ""}))
         self.cameraNames.insert("All", at: 0)
         self.cameraPicker.reloadAllComponents()
     }
@@ -156,7 +135,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         case "All":
             displayedPhotos = allPhotos
         default:
-            displayedPhotos = allPhotos.filter { $0.camera.name == selectedCamera }
+            displayedPhotos = allPhotos.filter { $0.camera?.name ?? "" == selectedCamera }
         }
         tableView.reloadData()
         configureNumberOfPhotosLabel()
@@ -201,7 +180,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private func handleValidSolInput(_ newSol: Int) {
         currentSol = newSol
         clearDisplayedData()
-        fetchData(sol: newSol, rover: chosenRover)
+        fetchData(sol: newSol, rover: chosenRover, context: managedObjectContext)
     }
     
     private func handleInvalidSolInput() {

@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="18F132" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Photo" representedClassName="Photo" syncable="YES" codeGenerationType="class">
-        <attribute name="camera" optional="YES" attributeType="String"/>
+    <entity name="Camera" representedClassName="Camera" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="photo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Photo" inverseName="camera" inverseEntity="Photo"/>
+    </entity>
+    <entity name="Photo" representedClassName="Photo" syncable="YES">
+        <attribute name="earthDate" optional="YES" attributeType="String"/>
         <attribute name="image" optional="YES" attributeType="String"/>
-        <attribute name="rover" optional="YES" attributeType="String"/>
         <attribute name="sol" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="camera" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Camera" inverseName="photo" inverseEntity="Camera"/>
+        <relationship name="rover" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Rover" inverseName="photo" inverseEntity="Rover"/>
+    </entity>
+    <entity name="Rover" representedClassName="Rover" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="status" optional="YES" attributeType="String"/>
+        <relationship name="photo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Photo" inverseName="rover" inverseEntity="Photo"/>
     </entity>
     <elements>
-        <element name="Photo" positionX="-54" positionY="-9" width="128" height="118"/>
+        <element name="Camera" positionX="-82.84765625" positionY="-112.94921875" width="128" height="73"/>
+        <element name="Photo" positionX="-255.875" positionY="-375.07421875" width="128" height="118"/>
+        <element name="Rover" positionX="-473.1875" positionY="-223.04296875" width="128" height="88"/>
     </elements>
 </model>
