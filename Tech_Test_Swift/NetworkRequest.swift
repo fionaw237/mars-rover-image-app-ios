@@ -7,14 +7,19 @@
 //
 
 import Foundation
+import CoreData
 
 protocol NetworkRequest {
-    func fetchData(sol: Int, rover: String, completion: @escaping (Result<[PhotoDto], Error>) -> Void)
+    func fetchData(sol: Int, rover: String, context: NSManagedObjectContext, completion: @escaping (Result<[Photo], Error>) -> Void)
 }
 
-
 class APIRequest: NetworkRequest {
-    func fetchData(sol: Int, rover: String, completion: @escaping (Result<[PhotoDto], Error>) -> Void) {
+    
+    struct PhotosResponse: Decodable {
+        var photos: [Photo]
+    }
+    
+    func fetchData(sol: Int, rover: String, context: NSManagedObjectContext, completion: @escaping (Result<[Photo], Error>) -> Void) {
         
         let baseUrl = "https://api.nasa.gov/mars-photos/api/v1/rovers/"
         let key = "SosAw8PH06hY4UgdReSvYk0F0GfqFHPv0V9GWFK8"
@@ -27,8 +32,10 @@ class APIRequest: NetworkRequest {
             DispatchQueue.main.async {
                 if error == nil {
                     guard let data = data else {return}
+                    let decoder = JSONDecoder()
+                    decoder.userInfo[CodingUserInfoKey.context!] = context
                     do {
-                        let photosResponse = try JSONDecoder().decode(PhotosResponse.self, from: data)
+                        let photosResponse = try decoder.decode(PhotosResponse.self, from: data)
                         completion(.success(photosResponse.photos))
                     } catch let jsonError {
                         completion(.failure(jsonError))

@@ -14,14 +14,13 @@
 		2B1C412C240FDEB6009E2931 /* Tech_Test_Swift.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2B1C412A240FDEB6009E2931 /* Tech_Test_Swift.xcdatamodeld */; };
 		2B1C412E240FDEB8009E2931 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B1C412D240FDEB8009E2931 /* Assets.xcassets */; };
 		2B1C4131240FDEB8009E2931 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B1C412F240FDEB8009E2931 /* LaunchScreen.storyboard */; };
-		2B4857612434A8280031B339 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4857602434A8280031B339 /* Models.swift */; };
 		2B4857632434AAB00031B339 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4857622434AAB00031B339 /* NetworkRequest.swift */; };
-		2B90EE99243B5B1C00C5B328 /* RoverDecodable+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90EE93243B5B1C00C5B328 /* RoverDecodable+CoreDataClass.swift */; };
-		2B90EE9A243B5B1C00C5B328 /* RoverDecodable+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90EE94243B5B1C00C5B328 /* RoverDecodable+CoreDataProperties.swift */; };
-		2B90EE9B243B5B1C00C5B328 /* CameraDecodable+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90EE95243B5B1C00C5B328 /* CameraDecodable+CoreDataClass.swift */; };
-		2B90EE9C243B5B1C00C5B328 /* CameraDecodable+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90EE96243B5B1C00C5B328 /* CameraDecodable+CoreDataProperties.swift */; };
-		2B90EE9D243B5B1C00C5B328 /* PhotoDecodable+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90EE97243B5B1C00C5B328 /* PhotoDecodable+CoreDataClass.swift */; };
-		2B90EE9E243B5B1C00C5B328 /* PhotoDecodable+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90EE98243B5B1C00C5B328 /* PhotoDecodable+CoreDataProperties.swift */; };
+		2B90EE99243B5B1C00C5B328 /* Rover+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90EE93243B5B1C00C5B328 /* Rover+CoreDataClass.swift */; };
+		2B90EE9A243B5B1C00C5B328 /* Rover+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90EE94243B5B1C00C5B328 /* Rover+CoreDataProperties.swift */; };
+		2B90EE9B243B5B1C00C5B328 /* Camera+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90EE95243B5B1C00C5B328 /* Camera+CoreDataClass.swift */; };
+		2B90EE9C243B5B1C00C5B328 /* Camera+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90EE96243B5B1C00C5B328 /* Camera+CoreDataProperties.swift */; };
+		2B90EE9D243B5B1C00C5B328 /* Photo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90EE97243B5B1C00C5B328 /* Photo+CoreDataClass.swift */; };
+		2B90EE9E243B5B1C00C5B328 /* Photo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90EE98243B5B1C00C5B328 /* Photo+CoreDataProperties.swift */; };
 		2B90EEA0243B626E00C5B328 /* CodingUserInfoKeysExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90EE9F243B626E00C5B328 /* CodingUserInfoKeysExtensions.swift */; };
 		2BE0295F241E87E900314F08 /* PhotoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE0295E241E87E900314F08 /* PhotoTableViewCell.swift */; };
 		2BE02963241E985500314F08 /* ImageViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE02962241E985500314F08 /* ImageViewExtensions.swift */; };
@@ -37,14 +36,13 @@
 		2B1C412D240FDEB8009E2931 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2B1C4130240FDEB8009E2931 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2B1C4132240FDEB8009E2931 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2B4857602434A8280031B339 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		2B4857622434AAB00031B339 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
-		2B90EE93243B5B1C00C5B328 /* RoverDecodable+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RoverDecodable+CoreDataClass.swift"; sourceTree = "<group>"; };
-		2B90EE94243B5B1C00C5B328 /* RoverDecodable+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RoverDecodable+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		2B90EE95243B5B1C00C5B328 /* CameraDecodable+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraDecodable+CoreDataClass.swift"; sourceTree = "<group>"; };
-		2B90EE96243B5B1C00C5B328 /* CameraDecodable+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraDecodable+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		2B90EE97243B5B1C00C5B328 /* PhotoDecodable+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotoDecodable+CoreDataClass.swift"; sourceTree = "<group>"; };
-		2B90EE98243B5B1C00C5B328 /* PhotoDecodable+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotoDecodable+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		2B90EE93243B5B1C00C5B328 /* Rover+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rover+CoreDataClass.swift"; sourceTree = "<group>"; };
+		2B90EE94243B5B1C00C5B328 /* Rover+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rover+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		2B90EE95243B5B1C00C5B328 /* Camera+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Camera+CoreDataClass.swift"; sourceTree = "<group>"; };
+		2B90EE96243B5B1C00C5B328 /* Camera+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Camera+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		2B90EE97243B5B1C00C5B328 /* Photo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataClass.swift"; sourceTree = "<group>"; };
+		2B90EE98243B5B1C00C5B328 /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2B90EE9F243B626E00C5B328 /* CodingUserInfoKeysExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodingUserInfoKeysExtensions.swift; sourceTree = "<group>"; };
 		2BE0295E241E87E900314F08 /* PhotoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoTableViewCell.swift; sourceTree = "<group>"; };
 		2BE02962241E985500314F08 /* ImageViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewExtensions.swift; sourceTree = "<group>"; };
@@ -64,12 +62,12 @@
 		2B1C4115240FDEB6009E2931 = {
 			isa = PBXGroup;
 			children = (
-				2B90EE93243B5B1C00C5B328 /* RoverDecodable+CoreDataClass.swift */,
-				2B90EE94243B5B1C00C5B328 /* RoverDecodable+CoreDataProperties.swift */,
-				2B90EE95243B5B1C00C5B328 /* CameraDecodable+CoreDataClass.swift */,
-				2B90EE96243B5B1C00C5B328 /* CameraDecodable+CoreDataProperties.swift */,
-				2B90EE97243B5B1C00C5B328 /* PhotoDecodable+CoreDataClass.swift */,
-				2B90EE98243B5B1C00C5B328 /* PhotoDecodable+CoreDataProperties.swift */,
+				2B90EE93243B5B1C00C5B328 /* Rover+CoreDataClass.swift */,
+				2B90EE94243B5B1C00C5B328 /* Rover+CoreDataProperties.swift */,
+				2B90EE95243B5B1C00C5B328 /* Camera+CoreDataClass.swift */,
+				2B90EE96243B5B1C00C5B328 /* Camera+CoreDataProperties.swift */,
+				2B90EE97243B5B1C00C5B328 /* Photo+CoreDataClass.swift */,
+				2B90EE98243B5B1C00C5B328 /* Photo+CoreDataProperties.swift */,
 				2B1C4120240FDEB6009E2931 /* Tech_Test_Swift */,
 				2B1C411F240FDEB6009E2931 /* Products */,
 			);
@@ -96,7 +94,6 @@
 				2B1C412A240FDEB6009E2931 /* Tech_Test_Swift.xcdatamodeld */,
 				2BE0295E241E87E900314F08 /* PhotoTableViewCell.swift */,
 				2BE02962241E985500314F08 /* ImageViewExtensions.swift */,
-				2B4857602434A8280031B339 /* Models.swift */,
 				2B4857622434AAB00031B339 /* NetworkRequest.swift */,
 				2B90EE9F243B626E00C5B328 /* CodingUserInfoKeysExtensions.swift */,
 			);
@@ -174,20 +171,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B90EE9A243B5B1C00C5B328 /* RoverDecodable+CoreDataProperties.swift in Sources */,
+				2B90EE9A243B5B1C00C5B328 /* Rover+CoreDataProperties.swift in Sources */,
 				2BE0295F241E87E900314F08 /* PhotoTableViewCell.swift in Sources */,
 				2B1C4126240FDEB6009E2931 /* ViewController.swift in Sources */,
-				2B90EE9D243B5B1C00C5B328 /* PhotoDecodable+CoreDataClass.swift in Sources */,
-				2B90EE99243B5B1C00C5B328 /* RoverDecodable+CoreDataClass.swift in Sources */,
+				2B90EE9D243B5B1C00C5B328 /* Photo+CoreDataClass.swift in Sources */,
+				2B90EE99243B5B1C00C5B328 /* Rover+CoreDataClass.swift in Sources */,
 				2B1C4122240FDEB6009E2931 /* AppDelegate.swift in Sources */,
-				2B90EE9B243B5B1C00C5B328 /* CameraDecodable+CoreDataClass.swift in Sources */,
-				2B90EE9C243B5B1C00C5B328 /* CameraDecodable+CoreDataProperties.swift in Sources */,
+				2B90EE9B243B5B1C00C5B328 /* Camera+CoreDataClass.swift in Sources */,
+				2B90EE9C243B5B1C00C5B328 /* Camera+CoreDataProperties.swift in Sources */,
 				2B4857632434AAB00031B339 /* NetworkRequest.swift in Sources */,
 				2B90EEA0243B626E00C5B328 /* CodingUserInfoKeysExtensions.swift in Sources */,
 				2B1C4124240FDEB6009E2931 /* SceneDelegate.swift in Sources */,
 				2B1C412C240FDEB6009E2931 /* Tech_Test_Swift.xcdatamodeld in Sources */,
-				2B4857612434A8280031B339 /* Models.swift in Sources */,
-				2B90EE9E243B5B1C00C5B328 /* PhotoDecodable+CoreDataProperties.swift in Sources */,
+				2B90EE9E243B5B1C00C5B328 /* Photo+CoreDataProperties.swift in Sources */,
 				2BE02963241E985500314F08 /* ImageViewExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
