@@ -36,6 +36,11 @@ class APIRequest: NetworkRequest {
                     decoder.userInfo[CodingUserInfoKey.context!] = context
                     do {
                         let photosResponse = try decoder.decode(PhotosResponse.self, from: data)
+                        do {
+                            try context.save()
+                        } catch {
+                            print("Error saving to core data for sol \(sol)")
+                        }
                         completion(.success(photosResponse.photos))
                     } catch let jsonError {
                         completion(.failure(jsonError))
