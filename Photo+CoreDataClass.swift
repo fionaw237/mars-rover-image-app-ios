@@ -17,7 +17,7 @@ public class Photo: NSManagedObject, Decodable {
         guard let contextUserInfoKey = CodingUserInfoKey.context,
             let managedObjectContext = decoder.userInfo[contextUserInfoKey] as? NSManagedObjectContext,
             let entity = NSEntityDescription.entity(forEntityName: "Photo", in: managedObjectContext) else {
-                fatalError("Failed to decode Photo")
+                fatalError("Error creating entity for Photo")
         }
         self.init(entity: entity, insertInto: managedObjectContext)
         let values = try decoder.container(keyedBy: PhotoCodingKeys.self)
@@ -28,7 +28,7 @@ public class Photo: NSManagedObject, Decodable {
             rover = try values.decode(Rover?.self, forKey:.rover)
             earthDate = try values.decode(String?.self, forKey:.earthDate)
         } catch {
-            print("Error in Photo")
+            print("Error decoding Photo")
         }
     }
 }

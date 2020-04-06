@@ -17,7 +17,7 @@ public class Rover: NSManagedObject, Decodable {
         guard let contextUserInfoKey = CodingUserInfoKey.context,
             let managedObjectContext = decoder.userInfo[contextUserInfoKey] as? NSManagedObjectContext,
             let entity = NSEntityDescription.entity(forEntityName: "Rover", in: managedObjectContext) else {
-                fatalError("Failed to decode Rover")
+                fatalError("Failed to create entity for Rover")
         }
         self.init(entity: entity, insertInto: managedObjectContext)
         let values = try decoder.container(keyedBy: RoverCodingKeys.self)
@@ -25,7 +25,7 @@ public class Rover: NSManagedObject, Decodable {
          name = try values.decode(String?.self, forKey:.name)
             status = try values.decode(String?.self, forKey:.status)
         } catch {
-            print("Error in Rover")
+            print("Error decoding Rover")
         }
     }
 }

@@ -17,14 +17,14 @@ public class Camera: NSManagedObject, Decodable {
            guard let contextUserInfoKey = CodingUserInfoKey.context,
                let managedObjectContext = decoder.userInfo[contextUserInfoKey] as? NSManagedObjectContext,
                let entity = NSEntityDescription.entity(forEntityName: "Camera", in: managedObjectContext) else {
-                   fatalError("Failed to decode Camera")
+                   fatalError("Error creating entity for Camera")
            }
            self.init(entity: entity, insertInto: managedObjectContext)
            let values = try decoder.container(keyedBy: CameraCodingKeys.self)
            do {
             name = try values.decode(String?.self, forKey:.name)
            } catch {
-               print("Error in Camera")
+               print("Error decoding Camera")
            }
        }
 }
