@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+class ViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var earthDateLabel: UILabel!
@@ -99,48 +99,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         numberOfPhotosLabel.text = error.localizedDescription
     }
     
-    //MARK: TableView delegate methods
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return displayedPhotos.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: "PhotoTableViewCell", for: indexPath) as! PhotoTableViewCell
-        cell.setPhotoProperties(displayedPhotos[indexPath.row])
-        return cell
-    }
-    
-    // MARK: Picker view methods
-    
-    private func setUpCameraPicker() {
-        self.cameraNames = Array(Set(allPhotos.map {$0.camera?.name ?? ""}))
-        self.cameraNames.insert("All", at: 0)
-        self.cameraPicker.reloadAllComponents()
-    }
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return cameraNames.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return cameraNames[row]
-    }
-
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let selectedCamera = cameraNames[row]
-        switch selectedCamera {
-        case "All":
-            displayedPhotos = allPhotos
-        default:
-            displayedPhotos = allPhotos.filter { $0.camera?.name ?? "" == selectedCamera }
-        }
+    private func clearDisplayedData() {
+        displayedPhotos = []
+        allPhotos = []
+        cameraNames = []
+        earthDateLabel.text = ""
         tableView.reloadData()
-        configureNumberOfPhotosLabel()
+        cameraPicker.reloadAllComponents()
     }
     
     // MARK: Methods for handling tap gesture
@@ -163,8 +128,59 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private func configureEarthDateLabel() {
         earthDateLabel.text = allPhotos.count > 0 ? allPhotos[0].earthDate : ""
     }
+}
+
+
+//MARK: Table view methods
+extension ViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return displayedPhotos.count
+    }
     
-    // MARK: Methods for sol text field
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: "PhotoTableViewCell", for: indexPath) as! PhotoTableViewCell
+        cell.setPhotoProperties(displayedPhotos[indexPath.row])
+        return cell
+    }
+}
+
+
+// MARK: Picker view methods
+extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    private func setUpCameraPicker() {
+        self.cameraNames = Array(Set(allPhotos.map {$0.camera?.name ?? ""}))
+        self.cameraNames.insert("All", at: 0)
+        self.cameraPicker.reloadAllComponents()
+    }
+
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return cameraNames.count
+    }
+
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return cameraNames[row]
+    }
+
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        let selectedCamera = cameraNames[row]
+        switch selectedCamera {
+        case "All":
+            displayedPhotos = allPhotos
+        default:
+            displayedPhotos = allPhotos.filter { $0.camera?.name ?? "" == selectedCamera }
+        }
+        tableView.reloadData()
+        configureNumberOfPhotosLabel()
+    }
+}
+
+
+// MARK: Methods for sol text field
+extension ViewController: UITextFieldDelegate {
     
     private func configureSolTextField() {
         solTextField.text = "\(defaultSol)"
@@ -189,14 +205,4 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         numberOfPhotosLabel.text = "Please enter a sol between \(minSol) and \(maxSol)"
         clearDisplayedData()
     }
-    
-    private func clearDisplayedData() {
-        displayedPhotos = []
-        allPhotos = []
-        cameraNames = []
-        earthDateLabel.text = ""
-        tableView.reloadData()
-        cameraPicker.reloadAllComponents()
-    }
 }
-
