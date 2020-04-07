@@ -17,7 +17,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var numberOfPhotosLabel: UILabel!
     @IBOutlet weak var cameraPicker: UIPickerView!
     
-    var managedObjectContext: NSManagedObjectContext!
+    var managedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var allPhotos: [Photo] = []
     var displayedPhotos: [Photo] = []
     var cameraNames: [String] = []
@@ -28,17 +28,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     let chosenRover = "Curiosity"
     let apiRequest = APIRequest()
     
+    lazy var fetchedResultsController: NSFetchedResultsController<Photo> = {
+        return NSFetchedResultsController(
+        fetchRequest: Photo.fetchRequest(),
+        managedObjectContext: managedObjectContext,
+        sectionNameKeyPath: nil,
+        cacheName: nil)
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setManagedObjectContext()
         configureSolTextField()
         configureTapGesture()
         fetchData(sol: defaultSol, rover: chosenRover, context: managedObjectContext)
-    }
-    
-    private func setManagedObjectContext() {
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        managedObjectContext = appDelegate?.persistentContainer.viewContext
     }
     
     //MARK: Methods handling fetching of data
