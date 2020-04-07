@@ -62,12 +62,6 @@
 		2B1C4115240FDEB6009E2931 = {
 			isa = PBXGroup;
 			children = (
-				2B90EE93243B5B1C00C5B328 /* Rover+CoreDataClass.swift */,
-				2B90EE94243B5B1C00C5B328 /* Rover+CoreDataProperties.swift */,
-				2B90EE95243B5B1C00C5B328 /* Camera+CoreDataClass.swift */,
-				2B90EE96243B5B1C00C5B328 /* Camera+CoreDataProperties.swift */,
-				2B90EE97243B5B1C00C5B328 /* Photo+CoreDataClass.swift */,
-				2B90EE98243B5B1C00C5B328 /* Photo+CoreDataProperties.swift */,
 				2B1C4120240FDEB6009E2931 /* Tech_Test_Swift */,
 				2B1C411F240FDEB6009E2931 /* Products */,
 			);
@@ -84,20 +78,58 @@
 		2B1C4120240FDEB6009E2931 /* Tech_Test_Swift */ = {
 			isa = PBXGroup;
 			children = (
+				2B4DB712243C92AD003454FA /* Controllers */,
+				2B4DB711243C9291003454FA /* Networking */,
+				2B4DB710243C9217003454FA /* UI */,
+				2B4DB70F243C9151003454FA /* Models */,
 				2B1C4121240FDEB6009E2931 /* AppDelegate.swift */,
 				2B1C4123240FDEB6009E2931 /* SceneDelegate.swift */,
-				2B1C4125240FDEB6009E2931 /* ViewController.swift */,
+				2B1C4132240FDEB8009E2931 /* Info.plist */,
+			);
+			path = Tech_Test_Swift;
+			sourceTree = "<group>";
+		};
+		2B4DB70F243C9151003454FA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2B1C412A240FDEB6009E2931 /* Tech_Test_Swift.xcdatamodeld */,
+				2B90EE93243B5B1C00C5B328 /* Rover+CoreDataClass.swift */,
+				2B90EE94243B5B1C00C5B328 /* Rover+CoreDataProperties.swift */,
+				2B90EE95243B5B1C00C5B328 /* Camera+CoreDataClass.swift */,
+				2B90EE96243B5B1C00C5B328 /* Camera+CoreDataProperties.swift */,
+				2B90EE97243B5B1C00C5B328 /* Photo+CoreDataClass.swift */,
+				2B90EE98243B5B1C00C5B328 /* Photo+CoreDataProperties.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		2B4DB710243C9217003454FA /* UI */ = {
+			isa = PBXGroup;
+			children = (
 				2B1C4127240FDEB6009E2931 /* Main.storyboard */,
 				2B1C412D240FDEB8009E2931 /* Assets.xcassets */,
 				2B1C412F240FDEB8009E2931 /* LaunchScreen.storyboard */,
-				2B1C4132240FDEB8009E2931 /* Info.plist */,
-				2B1C412A240FDEB6009E2931 /* Tech_Test_Swift.xcdatamodeld */,
 				2BE0295E241E87E900314F08 /* PhotoTableViewCell.swift */,
 				2BE02962241E985500314F08 /* ImageViewExtensions.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		2B4DB711243C9291003454FA /* Networking */ = {
+			isa = PBXGroup;
+			children = (
 				2B4857622434AAB00031B339 /* NetworkRequest.swift */,
 				2B90EE9F243B626E00C5B328 /* CodingUserInfoKeysExtensions.swift */,
 			);
-			path = Tech_Test_Swift;
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		2B4DB712243C92AD003454FA /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				2B1C4125240FDEB6009E2931 /* ViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
