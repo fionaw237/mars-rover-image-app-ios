@@ -32,7 +32,3 @@ public class Photo: NSManagedObject, Decodable {
         }
     }
 }
-
-enum PhotoCodingKeys: String, CodingKey {
-    case sol, camera, rover, image = "img_src", earthDate = "earth_date"
-}

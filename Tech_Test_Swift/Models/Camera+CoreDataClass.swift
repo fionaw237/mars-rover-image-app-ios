@@ -28,8 +28,3 @@ public class Camera: NSManagedObject, Decodable {
            }
        }
 }
-
-
-enum CameraCodingKeys: String, CodingKey {
-    case name
-}

@@ -29,7 +29,3 @@ public class Rover: NSManagedObject, Decodable {
         }
     }
 }
-
-enum RoverCodingKeys: String, CodingKey {
-    case name, status
-}
