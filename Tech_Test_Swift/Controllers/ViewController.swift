@@ -18,10 +18,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var cameraPicker: UIPickerView!
     
     var managedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    var allPhotos: [Photo] = []
-    var displayedPhotos: [Photo] = []
     var cameraNames: [String] = []
-    let defaultSol = 1
     var currentSol = 1
     let minSol = 1
     let maxSol = 2500
@@ -29,81 +26,82 @@ class ViewController: UIViewController {
     let apiRequest = APIRequest()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Photo> = {
-        return NSFetchedResultsController(
-        fetchRequest: Photo.fetchRequest(),
+        let request: NSFetchRequest<Photo> = Photo.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Photo.camera.name), ascending: true)]
+        request.predicate = solPredicate()
+        
+        let fetchedResultsController = NSFetchedResultsController(
+        fetchRequest: request,
         managedObjectContext: managedObjectContext,
         sectionNameKeyPath: nil,
         cacheName: nil)
+
+        fetchedResultsController.delegate = self
+        
+        return fetchedResultsController
     }()
+    
+    private func solPredicate() -> NSPredicate {
+        return NSPredicate(format: "%K == \(currentSol)", #keyPath(Photo.sol))
+    }
+    
+    private func solAndCameraPredicate(cameraName: String) -> NSPredicate {
+        return NSPredicate(format: "%K == \(currentSol)", #keyPath(Photo.sol))
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSolTextField()
         configureTapGesture()
-        fetchData(sol: defaultSol, rover: chosenRover, context: managedObjectContext)
+        fetchData(sol: currentSol, rover: chosenRover, context: managedObjectContext)
+    }
+    
+    private func reloadDisplayedData() {
+        configureNumberOfPhotosLabel()
+        configureEarthDateLabel()
+        setUpCameraPicker()
+        tableView.reloadData()
     }
     
     //MARK: Methods handling fetching of data
     
     private func fetchData(sol: Int, rover: String, context: NSManagedObjectContext) {
-        let fetchedPhotos = getLocalData(sol, rover)
-        if fetchedPhotos.isEmpty {
+        currentSol = sol
+        do {
+            fetchedResultsController.fetchRequest.predicate = solPredicate()
+            try fetchedResultsController.performFetch()
+        } catch let error as NSError {
+            print("Fetching error: \(error), \(error.userInfo)")
+        }
+        
+        if fetchedResultsController.fetchedObjects?.count ?? 0 == 0 {
             fetchDataRemotely(sol, rover, context)
         } else {
-            allPhotos = fetchedPhotos
-            displayedPhotos = allPhotos
-            setUpCameraPicker()
-            configureNumberOfPhotosLabel()
-            configureEarthDateLabel()
-            tableView.reloadData()
+            reloadDisplayedData()
         }
     }
     
-    private func getLocalData(_ sol: Int, _ rover: String) -> [Photo] {
-        let request: NSFetchRequest<Photo> = Photo.fetchRequest()
-        request.predicate = NSPredicate(format: "sol == \(sol)")
-        do {
-            return try managedObjectContext.fetch(request)
-          } catch let error as NSError {
-            print("Error fetching local data \(error), \(error.userInfo)")
-            return []
-          }
-    }
-
     private func fetchDataRemotely(_ sol: Int, _ rover: String, _ context: NSManagedObjectContext) {
         numberOfPhotosLabel.text = "Fetching images for sol \(sol)..."
         apiRequest.fetchData(sol: sol, rover: rover, context: context) { (result) in
-            self.handleDataFetched(result: result)
+            switch result {
+            case .success:
+                return
+            case .failure(let error):
+                self.numberOfPhotosLabel.text = error.localizedDescription
+            }
         }
-    }
-    
-    private func handleDataFetched(result: Result<[Photo], Error>) {
-        switch result {
-        case .success(let photos):
-            handleDataFetchSuccess(photos)
-        case .failure(let error):
-            handleDataFetchFailure(error)
-        }
-    }
-    
-    private func handleDataFetchSuccess(_ photos: [Photo]) {
-        allPhotos = photos
-        displayedPhotos = allPhotos
-        setUpCameraPicker()
-        configureNumberOfPhotosLabel()
-        configureEarthDateLabel()
-        tableView.reloadData()
-    }
-    
-    private func handleDataFetchFailure(_ error: Error) {
-        numberOfPhotosLabel.text = error.localizedDescription
     }
     
     private func clearDisplayedData() {
-        displayedPhotos = []
-        allPhotos = []
         cameraNames = []
         earthDateLabel.text = ""
+        do {
+            fetchedResultsController.fetchRequest.predicate = NSPredicate.init(value: false)
+            try fetchedResultsController.performFetch()
+        } catch let error as NSError {
+            print("Fetching error: \(error), \(error.userInfo)")
+        }
         tableView.reloadData()
         cameraPicker.reloadAllComponents()
     }
@@ -122,11 +120,11 @@ class ViewController: UIViewController {
     // MARK: Methods for configuring sol and earth date labels
     
     private func configureNumberOfPhotosLabel() {
-        numberOfPhotosLabel.text = "\(displayedPhotos.count) photo(s) found."
+        numberOfPhotosLabel.text = "\(fetchedResultsController.fetchedObjects?.count ?? 0) photo(s) found."
     }
     
     private func configureEarthDateLabel() {
-        earthDateLabel.text = allPhotos.count > 0 ? allPhotos[0].earthDate : ""
+        earthDateLabel.text = fetchedResultsController.fetchedObjects?.count ?? 0 > 0 ? fetchedResultsController.fetchedObjects![0].earthDate : ""
     }
 }
 
@@ -134,12 +132,13 @@ class ViewController: UIViewController {
 //MARK: Table view methods
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return displayedPhotos.count
+        guard let sectionInfo = fetchedResultsController.sections?[section] else {return 0}
+        return sectionInfo.numberOfObjects
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: "PhotoTableViewCell", for: indexPath) as! PhotoTableViewCell
-        cell.setPhotoProperties(displayedPhotos[indexPath.row])
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PhotoTableViewCell", for: indexPath) as! PhotoTableViewCell
+        cell.setPhotoProperties(fetchedResultsController.object(at: indexPath))
         return cell
     }
 }
@@ -148,9 +147,9 @@ extension ViewController: UITableViewDataSource {
 // MARK: Picker view methods
 extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     private func setUpCameraPicker() {
-        self.cameraNames = Array(Set(allPhotos.map {$0.camera?.name ?? ""}))
-        self.cameraNames.insert("All", at: 0)
-        self.cameraPicker.reloadAllComponents()
+        cameraNames = Array( Set ( ( fetchedResultsController.fetchedObjects ?? [] ).map { $0.camera?.name ?? "" } ) )
+        cameraNames.insert("All", at: 0)
+        cameraPicker.reloadAllComponents()
     }
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -166,24 +165,31 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let selectedCamera = cameraNames[row]
-        switch selectedCamera {
+        let selectedCamera = cameraNames.count > 0 ? cameraNames[row] : nil
+        guard let cameraName = selectedCamera else {return}
+        switch cameraName {
         case "All":
-            displayedPhotos = allPhotos
+            fetchedResultsController.fetchRequest.predicate = solPredicate()
         default:
-            displayedPhotos = allPhotos.filter { $0.camera?.name ?? "" == selectedCamera }
+            fetchedResultsController.fetchRequest.predicate = solAndCameraPredicate(cameraName: cameraName)
         }
+        
+        do {
+            try fetchedResultsController.performFetch()
+        } catch let error as NSError {
+            print("Fetching error: \(error), \(error.userInfo)")
+        }
+        
         tableView.reloadData()
         configureNumberOfPhotosLabel()
     }
 }
 
-
 // MARK: Methods for sol text field
 extension ViewController: UITextFieldDelegate {
     
     private func configureSolTextField() {
-        solTextField.text = "\(defaultSol)"
+        solTextField.text = "\(currentSol)"
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -206,3 +212,13 @@ extension ViewController: UITextFieldDelegate {
         clearDisplayedData()
     }
 }
+
+// MARK: NSFetchedResultsControllerDelegate
+extension ViewController: NSFetchedResultsControllerDelegate {
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        reloadDisplayedData()
+        print("DID CHANGE CONTENT")
+    }
+}
+
