@@ -178,14 +178,19 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="D2v-Ye-Ud8">
+                                <rect key="frame" x="177" y="294" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="0pK-mF-XPj" secondAttribute="trailing" id="EmC-ki-lZR"/>
+                            <constraint firstItem="mrx-Ho-9JP" firstAttribute="leading" secondItem="D2v-Ye-Ud8" secondAttribute="trailing" constant="10" id="KwX-gI-lCi"/>
                             <constraint firstItem="TNa-u0-LJI" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="centerX" constant="-10" id="Oiu-Ed-T9V"/>
                             <constraint firstItem="mrx-Ho-9JP" firstAttribute="top" secondItem="QPC-G6-CZh" secondAttribute="bottom" id="PBP-D8-ZmW"/>
                             <constraint firstItem="TNa-u0-LJI" firstAttribute="top" secondItem="0pK-mF-XPj" secondAttribute="bottom" constant="40" id="Rfx-jN-uRb"/>
                             <constraint firstAttribute="bottom" secondItem="qnm-Gz-rXv" secondAttribute="bottom" id="SUB-c2-5hx"/>
+                            <constraint firstItem="D2v-Ye-Ud8" firstAttribute="centerY" secondItem="mrx-Ho-9JP" secondAttribute="centerY" id="TdP-4u-Uav"/>
                             <constraint firstItem="0pK-mF-XPj" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.2" id="Tfx-Uy-hFx"/>
                             <constraint firstItem="QPC-G6-CZh" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-10" id="Trv-Ld-gTE"/>
                             <constraint firstItem="QPC-G6-CZh" firstAttribute="leading" secondItem="TNa-u0-LJI" secondAttribute="trailing" constant="10" id="V42-AC-tux"/>
@@ -202,6 +207,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="D2v-Ye-Ud8" id="G3b-w1-IjZ"/>
                         <outlet property="cameraPicker" destination="QPC-G6-CZh" id="7R1-HP-pmP"/>
                         <outlet property="earthDateLabel" destination="FvZ-DX-aDj" id="GNm-Kb-yIR"/>
                         <outlet property="numberOfPhotosLabel" destination="mrx-Ho-9JP" id="eaB-Vk-E3G"/>

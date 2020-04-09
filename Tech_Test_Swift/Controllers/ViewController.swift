@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var solTextField: UITextField!
     @IBOutlet weak var numberOfPhotosLabel: UILabel!
     @IBOutlet weak var cameraPicker: UIPickerView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var managedObjectContext: NSManagedObjectContext!
     var allPhotos: [Photo] = []
@@ -69,6 +70,7 @@ class ViewController: UIViewController {
     }
 
     private func fetchDataRemotely(_ sol: Int, _ rover: String, _ context: NSManagedObjectContext) {
+        activityIndicator.startAnimating()
         numberOfPhotosLabel.text = "Fetching images for sol \(sol)..."
         apiRequest.fetchData(sol: sol, rover: rover, context: context) { (result) in
             self.handleDataFetched(result: result)
@@ -82,6 +84,7 @@ class ViewController: UIViewController {
         case .failure(let error):
             handleDataFetchFailure(error)
         }
+        activityIndicator.stopAnimating()
     }
     
     private func handleDataFetchSuccess(_ photos: [Photo]) {
