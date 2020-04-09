@@ -61,7 +61,9 @@ class ViewController: UIViewController {
     
     private func getLocalData(_ sol: Int, _ rover: String) -> [Photo] {
         let request: NSFetchRequest<Photo> = Photo.fetchRequest()
-        request.predicate = NSPredicate(format: "sol == \(sol)")
+        let solPredicate = NSPredicate(format: "sol == \(sol)")
+        let roverPredicate = NSPredicate(format: "rover.name == \(rover)" )
+        request.predicate = NSCompoundPredicate.init(andPredicateWithSubpredicates: [solPredicate, roverPredicate])
         do {
             return try managedObjectContext.fetch(request)
           } catch let error as NSError {
