@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var numberOfPhotosLabel: UILabel!
     @IBOutlet weak var cameraPicker: UIPickerView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var roverSelector: UISegmentedControl!
     
     var managedObjectContext: NSManagedObjectContext!
     var allPhotos: [Photo] = []
@@ -26,7 +27,7 @@ class ViewController: UIViewController {
     var currentSol = 1
     let minSol = 1
     let maxSol = 2500
-    let chosenRover = "Curiosity"
+    var chosenRover = RoverName.Curiosity
     let apiRequest = APIRequest()
     
     override func viewDidLoad() {
@@ -34,7 +35,7 @@ class ViewController: UIViewController {
         setManagedObjectContext()
         configureSolTextField()
         configureTapGesture()
-        fetchData(sol: defaultSol, rover: chosenRover, context: managedObjectContext)
+        fetchData(sol: defaultSol, rover: chosenRover.rawValue, context: managedObjectContext)
     }
     
     private func setManagedObjectContext() {
@@ -45,7 +46,7 @@ class ViewController: UIViewController {
     //MARK: Methods handling fetching of data
     
     private func fetchData(sol: Int, rover: String, context: NSManagedObjectContext) {
-        let fetchedPhotos = getLocalData(sol, rover)
+        let fetchedPhotos: [Photo] = []//getLocalData(sol, rover)
         if fetchedPhotos.isEmpty {
             fetchDataRemotely(sol, rover, context)
         } else {
@@ -60,7 +61,9 @@ class ViewController: UIViewController {
     
     private func getLocalData(_ sol: Int, _ rover: String) -> [Photo] {
         let request: NSFetchRequest<Photo> = Photo.fetchRequest()
-        request.predicate = NSPredicate(format: "sol == \(sol)")
+        let solPredicate = NSPredicate(format: "sol == \(sol)")
+        let roverPredicate = NSPredicate(format: "rover.name == \(rover)" )
+        request.predicate = NSCompoundPredicate.init(andPredicateWithSubpredicates: [solPredicate, roverPredicate])
         do {
             return try managedObjectContext.fetch(request)
           } catch let error as NSError {
@@ -129,6 +132,14 @@ class ViewController: UIViewController {
     private func configureEarthDateLabel() {
         earthDateLabel.text = allPhotos.count > 0 ? allPhotos[0].earthDate : ""
     }
+    
+    // MARK: Changing rover
+    
+    @IBAction func roverSelected(_ sender: Any) {
+        chosenRover = RoverName(index: roverSelector.selectedSegmentIndex)
+        clearDisplayedData()
+        fetchData(sol: currentSol, rover: chosenRover.rawValue, context: managedObjectContext)
+    }
 }
 
 
@@ -149,9 +160,11 @@ extension ViewController: UITableViewDataSource {
 // MARK: Picker view methods
 extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     private func setUpCameraPicker() {
-        self.cameraNames = Array(Set(allPhotos.map {$0.camera?.name ?? ""}))
-        self.cameraNames.insert("All", at: 0)
-        self.cameraPicker.reloadAllComponents()
+        cameraNames = Array(Set(allPhotos.map {$0.camera?.name ?? ""}))
+        if cameraNames.count > 1 {
+            cameraNames.insert("All", at: 0)
+        }
+        cameraPicker.reloadAllComponents()
     }
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -199,7 +212,7 @@ extension ViewController: UITextFieldDelegate {
     private func handleValidSolInput(_ newSol: Int) {
         currentSol = newSol
         clearDisplayedData()
-        fetchData(sol: newSol, rover: chosenRover, context: managedObjectContext)
+        fetchData(sol: newSol, rover: chosenRover.rawValue, context: managedObjectContext)
     }
     
     private func handleInvalidSolInput() {
