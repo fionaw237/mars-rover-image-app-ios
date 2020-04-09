@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class PhotoTableViewCell: UITableViewCell {
     
@@ -20,7 +21,7 @@ class PhotoTableViewCell: UITableViewCell {
         roverName.text = photo.rover?.name ?? ""
         roverStatus.text = photo.rover?.status ?? ""
         if let url = URL(string: photo.image!) {
-            photoImage.load(url: url)
+            photoImage.sd_setImage(with: url)
         }
     }
 }
