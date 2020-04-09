@@ -45,8 +45,9 @@ class ViewController: UIViewController {
         return NSPredicate(format: "%K == \(currentSol)", #keyPath(Photo.sol))
     }
     
-    private func solAndCameraPredicate(cameraName: String) -> NSPredicate {
-        return NSPredicate(format: "%K == \(currentSol)", #keyPath(Photo.sol))
+    private func solAndCameraPredicate(cameraName: String) -> NSCompoundPredicate {
+        let cameraPredicate = NSPredicate(format: "%K.%K == \(cameraName)", #keyPath(Photo.camera), #keyPath(Camera.name))
+        return NSCompoundPredicate(andPredicateWithSubpredicates: [solPredicate(), cameraPredicate])
     }
     
     override func viewDidLoad() {
