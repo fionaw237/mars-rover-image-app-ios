@@ -158,9 +158,11 @@ extension ViewController: UITableViewDataSource {
 // MARK: Picker view methods
 extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     private func setUpCameraPicker() {
-        self.cameraNames = Array(Set(allPhotos.map {$0.camera?.name ?? ""}))
-        self.cameraNames.insert("All", at: 0)
-        self.cameraPicker.reloadAllComponents()
+        cameraNames = Array(Set(allPhotos.map {$0.camera?.name ?? ""}))
+        if cameraNames.count > 1 {
+            cameraNames.insert("All", at: 0)
+        }
+        cameraPicker.reloadAllComponents()
     }
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
