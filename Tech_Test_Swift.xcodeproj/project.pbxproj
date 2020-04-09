@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,6 +16,7 @@
 		2B1C4131240FDEB8009E2931 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B1C412F240FDEB8009E2931 /* LaunchScreen.storyboard */; };
 		2B4857632434AAB00031B339 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4857622434AAB00031B339 /* NetworkRequest.swift */; };
 		2B4DB715243C93F0003454FA /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4DB714243C93F0003454FA /* Enums.swift */; };
+		2B4DB718243F619B003454FA /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 2B4DB717243F619B003454FA /* SDWebImage */; };
 		2B90EE99243B5B1C00C5B328 /* Rover+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90EE93243B5B1C00C5B328 /* Rover+CoreDataClass.swift */; };
 		2B90EE9A243B5B1C00C5B328 /* Rover+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90EE94243B5B1C00C5B328 /* Rover+CoreDataProperties.swift */; };
 		2B90EE9B243B5B1C00C5B328 /* Camera+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90EE95243B5B1C00C5B328 /* Camera+CoreDataClass.swift */; };
@@ -24,7 +25,6 @@
 		2B90EE9E243B5B1C00C5B328 /* Photo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90EE98243B5B1C00C5B328 /* Photo+CoreDataProperties.swift */; };
 		2B90EEA0243B626E00C5B328 /* CodingUserInfoKeysExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90EE9F243B626E00C5B328 /* CodingUserInfoKeysExtensions.swift */; };
 		2BE0295F241E87E900314F08 /* PhotoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE0295E241E87E900314F08 /* PhotoTableViewCell.swift */; };
-		2BE02963241E985500314F08 /* ImageViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE02962241E985500314F08 /* ImageViewExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,7 +47,6 @@
 		2B90EE98243B5B1C00C5B328 /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2B90EE9F243B626E00C5B328 /* CodingUserInfoKeysExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodingUserInfoKeysExtensions.swift; sourceTree = "<group>"; };
 		2BE0295E241E87E900314F08 /* PhotoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoTableViewCell.swift; sourceTree = "<group>"; };
-		2BE02962241E985500314F08 /* ImageViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B4DB718243F619B003454FA /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,7 +136,6 @@
 		2B4DB713243C93D9003454FA /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				2BE02962241E985500314F08 /* ImageViewExtensions.swift */,
 				2B90EE9F243B626E00C5B328 /* CodingUserInfoKeysExtensions.swift */,
 				2B4DB714243C93F0003454FA /* Enums.swift */,
 			);
@@ -159,6 +158,9 @@
 			dependencies = (
 			);
 			name = Tech_Test_Swift;
+			packageProductDependencies = (
+				2B4DB717243F619B003454FA /* SDWebImage */,
+			);
 			productName = Tech_Test_Swift;
 			productReference = 2B1C411E240FDEB6009E2931 /* Tech_Test_Swift.app */;
 			productType = "com.apple.product-type.application";
@@ -187,6 +189,9 @@
 				Base,
 			);
 			mainGroup = 2B1C4115240FDEB6009E2931;
+			packageReferences = (
+				2B4DB716243F619B003454FA /* XCRemoteSwiftPackageReference "SDWebImage" */,
+			);
 			productRefGroup = 2B1C411F240FDEB6009E2931 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -228,7 +233,6 @@
 				2B1C4124240FDEB6009E2931 /* SceneDelegate.swift in Sources */,
 				2B1C412C240FDEB6009E2931 /* Tech_Test_Swift.xcdatamodeld in Sources */,
 				2B90EE9E243B5B1C00C5B328 /* Photo+CoreDataProperties.swift in Sources */,
-				2BE02963241E985500314F08 /* ImageViewExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,6 +430,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2B4DB716243F619B003454FA /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2B4DB717243F619B003454FA /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2B4DB716243F619B003454FA /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		2B1C412A240FDEB6009E2931 /* Tech_Test_Swift.xcdatamodeld */ = {
