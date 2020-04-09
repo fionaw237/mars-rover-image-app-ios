@@ -19,3 +19,18 @@ enum CameraCodingKeys: String, CodingKey {
 enum PhotoCodingKeys: String, CodingKey {
     case sol, camera, rover, image = "img_src", earthDate = "earth_date"
 }
+
+enum RoverName: String {
+    case Curiosity = "curiosity", Opportunity = "opportunity", Spirit = "spirit"
+    
+    init(index: Int) {
+        switch index {
+        case 0:
+            self = .Curiosity
+        case 1:
+            self = .Opportunity
+        default:
+            self = .Spirit
+        }
+    }
+}
