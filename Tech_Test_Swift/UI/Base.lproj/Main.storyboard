@@ -179,7 +179,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="D2v-Ye-Ud8">
-                                <rect key="frame" x="177" y="311" width="20" height="20"/>
+                                <rect key="frame" x="197" y="311" width="20" height="20"/>
                             </activityIndicatorView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="edf-Rn-Ezp" userLabel="Rover Selector">
                                 <rect key="frame" x="0.0" y="140" width="414" height="32"/>
@@ -203,12 +203,12 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="opaqueSeparatorColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="D2v-Ye-Ud8" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="0zk-zi-zfB"/>
                             <constraint firstItem="edf-Rn-Ezp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="1Qe-t2-fQ2"/>
                             <constraint firstItem="QbY-y0-35Y" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="2PL-Iy-zp4"/>
                             <constraint firstItem="QbY-y0-35Y" firstAttribute="bottom" secondItem="QPC-G6-CZh" secondAttribute="bottom" constant="5" id="E48-Ho-jEZ"/>
                             <constraint firstAttribute="trailing" secondItem="0pK-mF-XPj" secondAttribute="trailing" id="EmC-ki-lZR"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="edf-Rn-Ezp" secondAttribute="trailing" id="KZY-LN-fIY"/>
-                            <constraint firstItem="mrx-Ho-9JP" firstAttribute="leading" secondItem="D2v-Ye-Ud8" secondAttribute="trailing" constant="10" id="KwX-gI-lCi"/>
                             <constraint firstItem="TNa-u0-LJI" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="centerX" constant="-10" id="Oiu-Ed-T9V"/>
                             <constraint firstItem="mrx-Ho-9JP" firstAttribute="top" secondItem="QbY-y0-35Y" secondAttribute="bottom" constant="15" id="PBP-D8-ZmW"/>
                             <constraint firstAttribute="bottom" secondItem="qnm-Gz-rXv" secondAttribute="bottom" id="SUB-c2-5hx"/>

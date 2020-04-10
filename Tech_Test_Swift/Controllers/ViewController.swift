@@ -74,7 +74,7 @@ class ViewController: UIViewController {
 
     private func fetchDataRemotely(_ sol: Int, _ rover: String, _ context: NSManagedObjectContext) {
         activityIndicator.startAnimating()
-        numberOfPhotosLabel.text = "Fetching images for sol \(sol)..."
+        numberOfPhotosLabel.isHidden = true
         apiRequest.fetchData(sol: sol, rover: rover, context: context) { (result) in
             self.handleDataFetched(result: result)
         }
@@ -88,6 +88,7 @@ class ViewController: UIViewController {
             handleDataFetchFailure(error)
         }
         activityIndicator.stopAnimating()
+        numberOfPhotosLabel.isHidden = false
     }
     
     private func handleDataFetchSuccess(_ photos: [Photo]) {
@@ -126,7 +127,8 @@ class ViewController: UIViewController {
     // MARK: Methods for configuring sol and earth date labels
     
     private func configureNumberOfPhotosLabel() {
-        numberOfPhotosLabel.text = "\(displayedPhotos.count) photo(s) found."
+        let photoString = displayedPhotos.count == 1 ? "photo" : "photos"
+        numberOfPhotosLabel.text = "\(displayedPhotos.count) \(photoString) found"
     }
     
     private func configureEarthDateLabel() {
