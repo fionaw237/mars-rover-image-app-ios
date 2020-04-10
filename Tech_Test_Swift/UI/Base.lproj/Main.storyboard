@@ -19,28 +19,28 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="140"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sol:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zoh-Zf-u6o" userLabel="Sol Title Label">
-                                        <rect key="frame" x="160.5" y="50" width="36.5" height="26.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                        <rect key="frame" x="168.5" y="50" width="33.5" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Earth Date:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XWa-vz-pHa" userLabel="Earth Date Title Label">
-                                        <rect key="frame" x="90.5" y="91.5" width="106.5" height="26.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                        <rect key="frame" x="104.5" y="89" width="97.5" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FvZ-DX-aDj" userLabel="Earth Date">
-                                        <rect key="frame" x="212" y="105" width="0.0" height="0.0"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <rect key="frame" x="212" y="113" width="0.0" height="0.0"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="sol" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1wp-e7-iqZ" userLabel="Sol Text Field">
-                                        <rect key="frame" x="212" y="46.5" width="75" height="34"/>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="sol" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="1wp-e7-iqZ" userLabel="Sol Text Field">
+                                        <rect key="frame" x="212" y="45" width="80" height="34"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="75" id="WUA-l9-4Rc"/>
+                                            <constraint firstAttribute="width" constant="80" id="WUA-l9-4Rc"/>
                                         </constraints>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -57,10 +57,10 @@
                                     <constraint firstItem="1wp-e7-iqZ" firstAttribute="centerY" secondItem="Zoh-Zf-u6o" secondAttribute="centerY" id="GU7-Ii-sCP"/>
                                     <constraint firstAttribute="height" constant="140" id="KTi-29-fXN"/>
                                     <constraint firstItem="XWa-vz-pHa" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="0pK-mF-XPj" secondAttribute="leading" constant="20" id="Nol-om-up5"/>
-                                    <constraint firstItem="FvZ-DX-aDj" firstAttribute="centerY" secondItem="XWa-vz-pHa" secondAttribute="centerY" id="Nw8-6T-HOc"/>
-                                    <constraint firstItem="Zoh-Zf-u6o" firstAttribute="trailing" secondItem="0pK-mF-XPj" secondAttribute="centerX" constant="-10" id="OU0-lO-wsh"/>
-                                    <constraint firstItem="FvZ-DX-aDj" firstAttribute="leading" secondItem="XWa-vz-pHa" secondAttribute="trailing" constant="15" id="PGm-wp-Cpa"/>
+                                    <constraint firstItem="FvZ-DX-aDj" firstAttribute="bottom" secondItem="XWa-vz-pHa" secondAttribute="bottom" id="Nw8-6T-HOc"/>
+                                    <constraint firstItem="Zoh-Zf-u6o" firstAttribute="trailing" secondItem="0pK-mF-XPj" secondAttribute="centerX" constant="-5" id="OU0-lO-wsh"/>
                                     <constraint firstItem="1wp-e7-iqZ" firstAttribute="leading" secondItem="FvZ-DX-aDj" secondAttribute="leading" id="Rwk-N4-bKg"/>
+                                    <constraint firstItem="1wp-e7-iqZ" firstAttribute="centerX" secondItem="0pK-mF-XPj" secondAttribute="centerX" constant="45" id="jps-bG-2Ld"/>
                                     <constraint firstItem="XWa-vz-pHa" firstAttribute="top" secondItem="Zoh-Zf-u6o" secondAttribute="bottom" constant="15" id="xLA-Yx-UxG"/>
                                 </constraints>
                             </view>
