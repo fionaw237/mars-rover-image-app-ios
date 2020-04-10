@@ -65,7 +65,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="120" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qnm-Gz-rXv">
-                                <rect key="frame" x="0.0" y="336" width="414" height="560"/>
+                                <rect key="frame" x="0.0" y="340" width="414" height="556"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PhotoTableViewCell" rowHeight="146" id="k1E-vi-FPx" customClass="PhotoTableViewCell" customModule="Tech_Test_Swift" customModuleProvider="target">
@@ -156,30 +156,14 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="EXO-ed-qWx"/>
                                 </connections>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Camera:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TNa-u0-LJI">
-                                <rect key="frame" x="129" y="230.5" width="68" height="21.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QPC-G6-CZh">
-                                <rect key="frame" x="207" y="181" width="197" height="120"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="120" id="BRy-9p-pSF"/>
-                                </constraints>
-                                <connections>
-                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="h7G-uM-d4x"/>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="E4V-c4-h25"/>
-                                </connections>
-                            </pickerView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mrx-Ho-9JP" userLabel="Number Of Photos Label">
-                                <rect key="frame" x="207" y="321" width="0.0" height="0.0"/>
+                                <rect key="frame" x="207" y="325" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="D2v-Ye-Ud8">
-                                <rect key="frame" x="197" y="311" width="20" height="20"/>
+                                <rect key="frame" x="197" y="325" width="20" height="20"/>
                             </activityIndicatorView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="edf-Rn-Ezp" userLabel="Rover Selector">
                                 <rect key="frame" x="0.0" y="140" width="414" height="32"/>
@@ -194,10 +178,40 @@
                                 </connections>
                             </segmentedControl>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QbY-y0-35Y" userLabel="Separator">
-                                <rect key="frame" x="186.5" y="305" width="41" height="1"/>
+                                <rect key="frame" x="186.5" y="309" width="41" height="1"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="l3r-dx-R3s"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" id="P4O-nU-Frd" userLabel="Camera Picker View">
+                                <rect key="frame" x="93" y="217" width="228" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Camera:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TNa-u0-LJI">
+                                        <rect key="frame" x="0.0" y="11.5" width="68" height="21.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QPC-G6-CZh">
+                                        <rect key="frame" x="78" y="-38" width="150" height="120"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="120" id="BRy-9p-pSF"/>
+                                            <constraint firstAttribute="width" constant="150" id="cIH-Xk-PJD"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="dataSource" destination="BYZ-38-t0r" id="h7G-uM-d4x"/>
+                                            <outlet property="delegate" destination="BYZ-38-t0r" id="E4V-c4-h25"/>
+                                        </connections>
+                                    </pickerView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="TNa-u0-LJI" firstAttribute="centerY" secondItem="P4O-nU-Frd" secondAttribute="centerY" id="KCI-jL-Yn6"/>
+                                    <constraint firstItem="QPC-G6-CZh" firstAttribute="centerY" secondItem="TNa-u0-LJI" secondAttribute="centerY" id="L4N-3M-8rm"/>
+                                    <constraint firstItem="QPC-G6-CZh" firstAttribute="leading" secondItem="TNa-u0-LJI" secondAttribute="trailing" constant="10" id="P1p-bh-c1e"/>
+                                    <constraint firstItem="TNa-u0-LJI" firstAttribute="leading" secondItem="P4O-nU-Frd" secondAttribute="leading" id="V7Z-Hx-c56"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -206,21 +220,17 @@
                             <constraint firstItem="D2v-Ye-Ud8" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="0zk-zi-zfB"/>
                             <constraint firstItem="edf-Rn-Ezp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="1Qe-t2-fQ2"/>
                             <constraint firstItem="QbY-y0-35Y" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="2PL-Iy-zp4"/>
-                            <constraint firstItem="QbY-y0-35Y" firstAttribute="bottom" secondItem="QPC-G6-CZh" secondAttribute="bottom" constant="5" id="E48-Ho-jEZ"/>
+                            <constraint firstItem="D2v-Ye-Ud8" firstAttribute="top" secondItem="QbY-y0-35Y" secondAttribute="bottom" constant="15" id="CEq-3Z-48e"/>
                             <constraint firstAttribute="trailing" secondItem="0pK-mF-XPj" secondAttribute="trailing" id="EmC-ki-lZR"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="edf-Rn-Ezp" secondAttribute="trailing" id="KZY-LN-fIY"/>
-                            <constraint firstItem="TNa-u0-LJI" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="centerX" constant="-10" id="Oiu-Ed-T9V"/>
                             <constraint firstItem="mrx-Ho-9JP" firstAttribute="top" secondItem="QbY-y0-35Y" secondAttribute="bottom" constant="15" id="PBP-D8-ZmW"/>
                             <constraint firstAttribute="bottom" secondItem="qnm-Gz-rXv" secondAttribute="bottom" id="SUB-c2-5hx"/>
-                            <constraint firstItem="D2v-Ye-Ud8" firstAttribute="centerY" secondItem="mrx-Ho-9JP" secondAttribute="centerY" id="TdP-4u-Uav"/>
-                            <constraint firstItem="QPC-G6-CZh" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-10" id="Trv-Ld-gTE"/>
-                            <constraint firstItem="QPC-G6-CZh" firstAttribute="leading" secondItem="TNa-u0-LJI" secondAttribute="trailing" constant="10" id="V42-AC-tux"/>
+                            <constraint firstItem="P4O-nU-Frd" firstAttribute="centerX" secondItem="0pK-mF-XPj" secondAttribute="centerX" id="Wem-02-FO9"/>
                             <constraint firstItem="qnm-Gz-rXv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Yh8-Dp-Eng"/>
                             <constraint firstItem="qnm-Gz-rXv" firstAttribute="top" secondItem="mrx-Ho-9JP" secondAttribute="bottom" constant="15" id="ZeK-fG-rBb"/>
-                            <constraint firstItem="TNa-u0-LJI" firstAttribute="centerY" secondItem="QPC-G6-CZh" secondAttribute="centerY" id="eM5-d6-iPA"/>
-                            <constraint firstItem="QPC-G6-CZh" firstAttribute="top" secondItem="edf-Rn-Ezp" secondAttribute="bottom" constant="10" id="ewy-tX-pqy"/>
                             <constraint firstItem="0pK-mF-XPj" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="gyw-PR-9Mr"/>
                             <constraint firstItem="mrx-Ho-9JP" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="o5b-rX-2Eb"/>
+                            <constraint firstItem="QbY-y0-35Y" firstAttribute="top" secondItem="QPC-G6-CZh" secondAttribute="bottom" constant="10" id="obF-Sq-H9F"/>
                             <constraint firstItem="0pK-mF-XPj" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="rEI-cS-fFz"/>
                             <constraint firstItem="qnm-Gz-rXv" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="sKu-Oc-7lu"/>
                             <constraint firstItem="QbY-y0-35Y" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.1" id="ukj-N1-Y3S"/>
