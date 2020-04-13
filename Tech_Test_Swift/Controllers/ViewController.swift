@@ -46,7 +46,7 @@ class ViewController: UIViewController {
     //MARK: Methods handling fetching of data
     
     private func fetchData(sol: Int, rover: String, context: NSManagedObjectContext) {
-        let fetchedPhotos: [Photo] = []//getLocalData(sol, rover)
+        let fetchedPhotos = getLocalData(sol, rover)
         if fetchedPhotos.isEmpty {
             fetchDataRemotely(sol, rover, context)
         } else {
@@ -61,8 +61,8 @@ class ViewController: UIViewController {
     
     private func getLocalData(_ sol: Int, _ rover: String) -> [Photo] {
         let request: NSFetchRequest<Photo> = Photo.fetchRequest()
-        let solPredicate = NSPredicate(format: "sol == \(sol)")
-        let roverPredicate = NSPredicate(format: "rover.name == \(rover)" )
+        let solPredicate = NSPredicate(format: "%K == \(sol)", #keyPath(Photo.sol))
+        let roverPredicate = NSPredicate(format: "%K == \"\(rover)\"", #keyPath(Photo.rover.name))
         request.predicate = NSCompoundPredicate.init(andPredicateWithSubpredicates: [solPredicate, roverPredicate])
         do {
             return try managedObjectContext.fetch(request)

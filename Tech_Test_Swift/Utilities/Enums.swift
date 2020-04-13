@@ -21,7 +21,7 @@ enum PhotoCodingKeys: String, CodingKey {
 }
 
 enum RoverName: String {
-    case Curiosity = "curiosity", Opportunity = "opportunity", Spirit = "spirit"
+    case Curiosity = "Curiosity", Opportunity = "Opportunity", Spirit = "Spirit"
     
     init(index: Int) {
         switch index {
