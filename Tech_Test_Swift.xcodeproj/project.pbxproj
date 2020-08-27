@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		2B1C4122240FDEB6009E2931 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1C4121240FDEB6009E2931 /* AppDelegate.swift */; };
 		2B1C4124240FDEB6009E2931 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1C4123240FDEB6009E2931 /* SceneDelegate.swift */; };
-		2B1C4126240FDEB6009E2931 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1C4125240FDEB6009E2931 /* ViewController.swift */; };
+		2B1C4126240FDEB6009E2931 /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1C4125240FDEB6009E2931 /* PhotosViewController.swift */; };
 		2B1C4129240FDEB6009E2931 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B1C4127240FDEB6009E2931 /* Main.storyboard */; };
 		2B1C412C240FDEB6009E2931 /* Tech_Test_Swift.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2B1C412A240FDEB6009E2931 /* Tech_Test_Swift.xcdatamodeld */; };
 		2B1C412E240FDEB8009E2931 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B1C412D240FDEB8009E2931 /* Assets.xcassets */; };
@@ -32,7 +32,7 @@
 		2B1C411E240FDEB6009E2931 /* Tech_Test_Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tech_Test_Swift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B1C4121240FDEB6009E2931 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B1C4123240FDEB6009E2931 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		2B1C4125240FDEB6009E2931 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		2B1C4125240FDEB6009E2931 /* PhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
 		2B1C4128240FDEB6009E2931 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2B1C412B240FDEB6009E2931 /* Tech_Test_Swift.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tech_Test_Swift.xcdatamodel; sourceTree = "<group>"; };
 		2B1C412D240FDEB8009E2931 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -123,7 +123,7 @@
 		2B4DB712243C92AD003454FA /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				2B1C4125240FDEB6009E2931 /* ViewController.swift */,
+				2B1C4125240FDEB6009E2931 /* PhotosViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -216,7 +216,7 @@
 				2B90EE9A243B5B1C00C5B328 /* Rover+CoreDataProperties.swift in Sources */,
 				2BE0295F241E87E900314F08 /* PhotoTableViewCell.swift in Sources */,
 				BA7A8F7624F802A70055E69F /* PhotoManager.swift in Sources */,
-				2B1C4126240FDEB6009E2931 /* ViewController.swift in Sources */,
+				2B1C4126240FDEB6009E2931 /* PhotosViewController.swift in Sources */,
 				2B90EE9D243B5B1C00C5B328 /* Photo+CoreDataClass.swift in Sources */,
 				2B90EE99243B5B1C00C5B328 /* Rover+CoreDataClass.swift in Sources */,
 				2B1C4122240FDEB6009E2931 /* AppDelegate.swift in Sources */,

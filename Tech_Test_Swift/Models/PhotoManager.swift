@@ -7,8 +7,12 @@
 //
 
 import Foundation
+import CoreData
 
 struct PhotoManager {
+    
+    var context: NSManagedObjectContext? = nil
+    
     let defaultSol = 1
     var currentSol = 1
     let minSol = 1
@@ -50,6 +54,11 @@ struct PhotoManager {
         currentSol = value
     }
     
+    mutating func setPhotoArrays(_ data: [Photo]) {
+        allPhotos = data
+        displayedPhotos = data
+    }
+    
     mutating func handleSelectedCameraChanged(_ cameraName: String) {
         switch cameraName {
         case "All":
@@ -67,5 +76,17 @@ struct PhotoManager {
         return input != currentSol
     }
     
-    
+    mutating func fetchLocalData(_ sol: Int, _ rover: String) {
+        let request: NSFetchRequest<Photo> = Photo.fetchRequest()
+        let solPredicate = NSPredicate(format: "%K == \(sol)", #keyPath(Photo.sol))
+        let roverPredicate = NSPredicate(format: "%K == \"\(rover)\"", #keyPath(Photo.rover.name))
+        request.predicate = NSCompoundPredicate.init(andPredicateWithSubpredicates: [solPredicate, roverPredicate])
+        do {
+            let data = try context?.fetch(request) ?? []
+            setPhotoArrays(data)
+          } catch let error as NSError {
+            print("Error fetching local data \(error), \(error.userInfo)")
+            resetData()
+          }
+    }
 }
