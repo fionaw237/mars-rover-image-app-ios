@@ -9,15 +9,7 @@
 import Foundation
 import CoreData
 
-protocol NetworkRequest {
-    func fetchData(sol: Int, rover: String, context: NSManagedObjectContext, completion: @escaping (Result<[Photo], Error>) -> Void)
-}
-
-class APIRequest: NetworkRequest {
-    
-    struct PhotosResponse: Decodable {
-        var photos: [Photo]
-    }
+struct NetworkManager {
     
     func fetchData(sol: Int, rover: String, context: NSManagedObjectContext, completion: @escaping (Result<[Photo], Error>) -> Void) {
         
@@ -35,7 +27,7 @@ class APIRequest: NetworkRequest {
                     let decoder = JSONDecoder()
                     decoder.userInfo[CodingUserInfoKey.context!] = context
                     do {
-                        let photosResponse = try decoder.decode(PhotosResponse.self, from: data)
+                        let photosResponse = try decoder.decode(PhotoData.self, from: data)
                         do {
                             try context.save()
                         } catch {

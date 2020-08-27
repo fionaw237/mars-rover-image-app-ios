@@ -7,9 +7,8 @@
 //
 
 import UIKit
-import CoreData
 
-class ViewController: UIViewController {
+class PhotosViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var earthDateLabel: UILabel!
@@ -19,63 +18,40 @@ class ViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var roverSelector: UISegmentedControl!
     
-    var managedObjectContext: NSManagedObjectContext!
-    var allPhotos: [Photo] = []
-    var displayedPhotos: [Photo] = []
-    var cameraNames: [String] = []
-    let defaultSol = 1
-    var currentSol = 1
-    let minSol = 1
-    let maxSol = 2500
-    var chosenRover = RoverName.Curiosity
-    let apiRequest = APIRequest()
+    let networkManager = NetworkManager()
+    var photoManager = PhotoManager(
+        context: (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    )
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setManagedObjectContext()
         configureSolTextField()
         configureTapGesture()
-        fetchData(sol: defaultSol, rover: chosenRover.rawValue, context: managedObjectContext)
-    }
-    
-    private func setManagedObjectContext() {
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        managedObjectContext = appDelegate?.persistentContainer.viewContext
+        fetchData(sol: photoManager.defaultSol, rover: photoManager.chosenRover.rawValue)
     }
     
     //MARK: Methods handling fetching of data
     
-    private func fetchData(sol: Int, rover: String, context: NSManagedObjectContext) {
-        let fetchedPhotos = getLocalData(sol, rover)
-        if fetchedPhotos.isEmpty {
-            fetchDataRemotely(sol, rover, context)
+    private func fetchData(sol: Int, rover: String) {
+        photoManager.fetchLocalData(sol, rover)
+        if photoManager.allPhotos.isEmpty {
+            fetchDataRemotely(sol, rover)
         } else {
-            allPhotos = fetchedPhotos
-            displayedPhotos = allPhotos
             setUpCameraPicker()
             configureNumberOfPhotosLabel()
             configureEarthDateLabel()
             tableView.reloadData()
         }
     }
-    
-    private func getLocalData(_ sol: Int, _ rover: String) -> [Photo] {
-        let request: NSFetchRequest<Photo> = Photo.fetchRequest()
-        let solPredicate = NSPredicate(format: "%K == \(sol)", #keyPath(Photo.sol))
-        let roverPredicate = NSPredicate(format: "%K == \"\(rover)\"", #keyPath(Photo.rover.name))
-        request.predicate = NSCompoundPredicate.init(andPredicateWithSubpredicates: [solPredicate, roverPredicate])
-        do {
-            return try managedObjectContext.fetch(request)
-          } catch let error as NSError {
-            print("Error fetching local data \(error), \(error.userInfo)")
-            return []
-          }
-    }
 
-    private func fetchDataRemotely(_ sol: Int, _ rover: String, _ context: NSManagedObjectContext) {
+    private func fetchDataRemotely(_ sol: Int, _ rover: String) {
         activityIndicator.startAnimating()
         numberOfPhotosLabel.isHidden = true
-        apiRequest.fetchData(sol: sol, rover: rover, context: context) { (result) in
+        networkManager.fetchData(
+            sol: sol,
+            rover: rover,
+            context: (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        ) { (result) in
             self.handleDataFetched(result: result)
         }
     }
@@ -92,8 +68,7 @@ class ViewController: UIViewController {
     }
     
     private func handleDataFetchSuccess(_ photos: [Photo]) {
-        allPhotos = photos
-        displayedPhotos = allPhotos
+        photoManager.setPhotoArrays(photos)
         setUpCameraPicker()
         configureNumberOfPhotosLabel()
         configureEarthDateLabel()
@@ -105,9 +80,7 @@ class ViewController: UIViewController {
     }
     
     private func clearDisplayedData() {
-        displayedPhotos = []
-        allPhotos = []
-        cameraNames = []
+        photoManager.resetData()
         earthDateLabel.text = ""
         tableView.reloadData()
         cameraPicker.reloadAllComponents()
@@ -116,7 +89,7 @@ class ViewController: UIViewController {
     // MARK: Methods for handling tap gesture
     
     private func configureTapGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewController.handleTap))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(PhotosViewController.handleTap))
         view.addGestureRecognizer(tapGesture)
     }
     
@@ -127,45 +100,40 @@ class ViewController: UIViewController {
     // MARK: Methods for configuring sol and earth date labels
     
     private func configureNumberOfPhotosLabel() {
-        let photoString = displayedPhotos.count == 1 ? "photo" : "photos"
-        numberOfPhotosLabel.text = "\(displayedPhotos.count) \(photoString) found"
+        numberOfPhotosLabel.text = photoManager.numberOfPhotosInfoMessage
     }
     
     private func configureEarthDateLabel() {
-        earthDateLabel.text = allPhotos.count > 0 ? allPhotos[0].earthDate : ""
+        earthDateLabel.text = photoManager.earthDateLabelText
     }
     
     // MARK: Changing rover
     
     @IBAction func roverSelected(_ sender: Any) {
-        chosenRover = RoverName(index: roverSelector.selectedSegmentIndex)
+        photoManager.chosenRover = RoverName(index: roverSelector.selectedSegmentIndex)
         clearDisplayedData()
-        fetchData(sol: currentSol, rover: chosenRover.rawValue, context: managedObjectContext)
+        fetchData(sol: photoManager.currentSol, rover: photoManager.chosenRover.rawValue)
     }
 }
 
 
 //MARK: Table view methods
-extension ViewController: UITableViewDataSource {
+extension PhotosViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return displayedPhotos.count
+        return photoManager.displayedPhotos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "PhotoTableViewCell", for: indexPath) as! PhotoTableViewCell
-        cell.setPhotoProperties(displayedPhotos[indexPath.row])
+        cell.setPhotoProperties(photoManager.displayedPhotos[indexPath.row])
         return cell
     }
 }
 
 
 // MARK: Picker view methods
-extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+extension PhotosViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     private func setUpCameraPicker() {
-        cameraNames = Array(Set(allPhotos.map {$0.camera?.name ?? ""}))
-        if cameraNames.count > 1 {
-            cameraNames.insert("All", at: 0)
-        }
         cameraPicker.reloadAllComponents()
     }
 
@@ -174,21 +142,15 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return cameraNames.count
+        return photoManager.cameraNames.count
     }
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return cameraNames[row]
+        return photoManager.cameraNames[row]
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let selectedCamera = cameraNames[row]
-        switch selectedCamera {
-        case "All":
-            displayedPhotos = allPhotos
-        default:
-            displayedPhotos = allPhotos.filter { $0.camera?.name ?? "" == selectedCamera }
-        }
+        photoManager.handleSelectedCameraChanged(photoManager.cameraNames[row])
         tableView.reloadData()
         configureNumberOfPhotosLabel()
     }
@@ -196,29 +158,29 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 
 
 // MARK: Methods for sol text field
-extension ViewController: UITextFieldDelegate {
+extension PhotosViewController: UITextFieldDelegate {
     
     private func configureSolTextField() {
-        solTextField.text = "\(defaultSol)"
+        solTextField.text = "\(photoManager.defaultSol)"
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let newSol = solTextField.text, let newSolInt = Int(newSol) else {return}
-        if !(minSol...maxSol).contains(newSolInt) {
+        if !photoManager.isSolInputValid(newSolInt) {
             handleInvalidSolInput()
-        } else if newSolInt != currentSol {
+        } else if photoManager.changeFromCurrentSol(newSolInt)  {
             handleValidSolInput(newSolInt)
         }
     }
     
     private func handleValidSolInput(_ newSol: Int) {
-        currentSol = newSol
+        photoManager.setCurrentSol(newSol)
         clearDisplayedData()
-        fetchData(sol: newSol, rover: chosenRover.rawValue, context: managedObjectContext)
+        fetchData(sol: newSol, rover: photoManager.chosenRover.rawValue)
     }
     
     private func handleInvalidSolInput() {
-        numberOfPhotosLabel.text = "Please enter a sol between \(minSol) and \(maxSol)"
+        numberOfPhotosLabel.text = photoManager.numberOfPhotosInfoMessageInvalidSol
         clearDisplayedData()
     }
 }
