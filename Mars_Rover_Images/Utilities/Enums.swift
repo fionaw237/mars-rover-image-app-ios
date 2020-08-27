@@ -1,6 +1,6 @@
 //
 //  Enums.swift
-//  Tech_Test_Swift
+//  Mars_Rover_Images
 //
 //  Created by Fiona Wilson on 07/04/2020.
 //  Copyright © 2020 Fiona Wilson. All rights reserved.

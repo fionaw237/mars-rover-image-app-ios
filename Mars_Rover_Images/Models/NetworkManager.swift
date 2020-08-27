@@ -1,6 +1,6 @@
 //
 //  NetworkRequest.swift
-//  Tech_Test_Swift
+//  Mars_Rover_Images
 //
 //  Created by Fiona Wilson on 01/04/2020.
 //  Copyright © 2020 Fiona Wilson. All rights reserved.
