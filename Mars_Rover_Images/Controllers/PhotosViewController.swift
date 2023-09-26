@@ -27,15 +27,17 @@ class PhotosViewController: UIViewController {
         super.viewDidLoad()
         configureSolTextField()
         configureTapGesture()
-        fetchData(sol: photoManager.defaultSol, rover: photoManager.chosenRover.rawValue)
+        Task {
+            await fetchData(sol: photoManager.defaultSol, rover: photoManager.chosenRover.rawValue)
+        }
     }
     
     //MARK: Methods handling fetching of data
     
-    private func fetchData(sol: Int, rover: String) {
+    private func fetchData(sol: Int, rover: String) async {
         photoManager.fetchLocalData(sol, rover)
         if photoManager.allPhotos.isEmpty {
-            fetchDataRemotely(sol, rover)
+            await fetchDataRemotely(sol, rover)
         } else {
             setUpCameraPicker()
             configureNumberOfPhotosLabel()
@@ -44,25 +46,28 @@ class PhotosViewController: UIViewController {
         }
     }
 
-    private func fetchDataRemotely(_ sol: Int, _ rover: String) {
+    private func fetchDataRemotely(_ sol: Int, _ rover: String) async {
         activityIndicator.startAnimating()
         numberOfPhotosLabel.isHidden = true
-        networkManager.fetchData(
-            sol: sol,
-            rover: rover,
-            context: (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        ) { (result) in
-            self.handleDataFetched(result: result)
+        do {
+            let result = try await networkManager.fetchData(sol: sol, rover: rover, context: (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext)
+            handleDataFetched(result: result)
+        } catch let error {
+            guard let message = (error as? DataFetchError)?.rawValue else {
+                return
+            }
+            let alertController = UIAlertController(title: "", message: message, preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in }))
+            present(alertController, animated: true)
+            numberOfPhotosLabel.text = "Unable to dsplay images."
+            activityIndicator.stopAnimating()
+            numberOfPhotosLabel.isHidden = false
+            photoManager.allPhotos = []
         }
     }
     
-    private func handleDataFetched(result: Result<[Photo], Error>) {
-        switch result {
-        case .success(let photos):
-            handleDataFetchSuccess(photos)
-        case .failure(let error):
-            handleDataFetchFailure(error)
-        }
+    private func handleDataFetched(result: [Photo]) {
+        handleDataFetchSuccess(result)
         activityIndicator.stopAnimating()
         numberOfPhotosLabel.isHidden = false
     }
@@ -73,10 +78,6 @@ class PhotosViewController: UIViewController {
         configureNumberOfPhotosLabel()
         configureEarthDateLabel()
         tableView.reloadData()
-    }
-    
-    private func handleDataFetchFailure(_ error: Error) {
-        numberOfPhotosLabel.text = error.localizedDescription
     }
     
     private func clearDisplayedData() {
@@ -112,7 +113,9 @@ class PhotosViewController: UIViewController {
     @IBAction func roverSelected(_ sender: Any) {
         photoManager.chosenRover = RoverName(index: roverSelector.selectedSegmentIndex)
         clearDisplayedData()
-        fetchData(sol: photoManager.currentSol, rover: photoManager.chosenRover.rawValue)
+        Task {
+            await fetchData(sol: photoManager.currentSol, rover: photoManager.chosenRover.rawValue)
+        }
     }
 }
 
@@ -169,14 +172,16 @@ extension PhotosViewController: UITextFieldDelegate {
         if !photoManager.isSolInputValid(newSolInt) {
             handleInvalidSolInput()
         } else if photoManager.changeFromCurrentSol(newSolInt)  {
-            handleValidSolInput(newSolInt)
+            Task {
+                await handleValidSolInput(newSolInt)
+            }
         }
     }
     
-    private func handleValidSolInput(_ newSol: Int) {
+    private func handleValidSolInput(_ newSol: Int) async {
         photoManager.setCurrentSol(newSol)
         clearDisplayedData()
-        fetchData(sol: newSol, rover: photoManager.chosenRover.rawValue)
+        await fetchData(sol: newSol, rover: photoManager.chosenRover.rawValue)
     }
     
     private func handleInvalidSolInput() {
